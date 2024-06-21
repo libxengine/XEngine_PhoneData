@@ -41,7 +41,3 @@
 | CTCC_I   | 电信座机   |
 | CUCC_I   | 联通座机   |
 | CMCC_I   | 移动座机   |
-
-
-## 原始数据来源
-https://github.com/xluohome/phonedata
