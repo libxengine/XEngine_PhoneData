@@ -68,18 +68,17 @@ XENGINE_PROTOCOLHDR+199408840,028,1333
 
 #### 示例代码
 
-| 当前状态 | 编程语言 | 描述                    | 贡献者                |
-|:-----| :--- |:----------------------|:--------------------|
-| 待开始  | [golang](Source/golang) | golang xdb 查询客户端实现    | 待确定 |
-| 待开始  | [php](Source/php) | php xdb 查询客户端实现       | 待确定 |
-| 待开始  | [java](Source/java) | java xdb 查询客户端实现      | 待确定 |
-| 待开始  | [lua](Source/lua) | 纯 lua xdb 查询客户端实现     | 待确定 |
-| 已完成  | [c/c++](Source/c) | ANSC c xdb 查询客户端实现    | [xengine](https://github.com/libxengine/phonedata) |
-| 待开始  | [lua_c](Source/lua_c) | lua c 扩展 xdb 查询客户端实现  | 待确定 |
-| 待开始  | [rust](Source/rust) | rust xdb 查询客户端实现          | 待确定 |
-| 待开始  | [python](Source/python) | python xdb 查询客户端实现    | 待确定 |
-| 待开始  | [nodejs](Source/nodejs) | nodejs xdb 查询客户端实现    | 待确定 |
-| 待开始  | [csharp](Source/csharp) | csharp xdb 查询客户端实现   | 待确定 |
-| 待开始  | [erlang](Source/erlang) | erlang xdb 查询客户端实现   | 待确定 |
-| 待开始  | [php_ext](Source/php7_ext) | php c 扩展 xdb 查询客户端实现 | 待确定 |
-| 待开始  | [nginx](Source/nginx) | nginx 扩展 xdb 查询客户端实现  | 待确定 |
+| 当前状态  | 编程语言 | 描述                  | 贡献者               |
+|:-----    | :----    |:---------------------|:--------------------|
+| 待开始    | [golang](Source/golang)         | golang 查询客户端实现        | 待确定 |
+| 待开始    | [php](Source/php)               | php 查询客户端实现           | 待确定 |
+| 待开始    | [java](Source/java)             | java 查询客户端实现          | 待确定 |
+| 待开始    | [lua](Source/lua)               | 纯 lua 查询客户端实现        | 待确定 |
+| 已完成    | [c/c++](Source/C/)               |  c/c++ 查询客户端实现        | [xengine](https://github.com/libxengine) |
+| 待开始    | [rust](Source/rust)             | rust 查询客户端实现          | 待确定 |
+| 待开始    | [python](Source/python)         | python 查询客户端实现        | 待确定 |
+| 待开始    | [nodejs](Source/nodejs)         | nodejs 查询客户端实现        | 待确定 |
+| 待开始    | [csharp](Source/csharp)         | csharp 查询客户端实现        | 待确定 |
+| 待开始    | [erlang](Source/erlang)         | erlang 查询客户端实现        | 待确定 |
+| 待开始    | [php_ext](Source/php7_ext)      | php c 扩展 xdb 查询客户端实现 | 待确定 |
+| 待开始    | [nginx](Source/nginx)           | nginx 扩展 xdb 查询客户端实现 | 待确定 |
