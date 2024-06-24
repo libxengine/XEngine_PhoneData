@@ -62,9 +62,9 @@ XENGINE_PROTOCOLHDR+199408840,028,1333
 | CMCC_I   | 移动座机   |
 
 ## 代码结构
--- Data     数据库
--- Phone    提交记录文件夹
--- Source   示例文件夹
+ - Data     数据库
+ - Phone    提交记录文件夹
+ - Source   示例文件夹
 
 #### 示例代码
 
