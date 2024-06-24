@@ -60,3 +60,26 @@ XENGINE_PROTOCOLHDR+199408840,028,1333
 | CTCC_I   | 电信座机   |
 | CUCC_I   | 联通座机   |
 | CMCC_I   | 移动座机   |
+
+## 代码结构
+-- Data     数据库
+-- Phone    提交记录文件夹
+-- Source   示例文件夹
+
+#### 示例代码
+
+| 当前状态 | 编程语言 | 描述                    | 贡献者                |
+|:-----| :--- |:----------------------|:--------------------|
+| 待开始  | [golang](Source/golang) | golang xdb 查询客户端实现    | 待确定 |
+| 待开始  | [php](Source/php) | php xdb 查询客户端实现       | 待确定 |
+| 待开始  | [java](Source/java) | java xdb 查询客户端实现      | 待确定 |
+| 待开始  | [lua](Source/lua) | 纯 lua xdb 查询客户端实现     | 待确定 |
+| 已完成  | [c/c++](Source/c) | ANSC c xdb 查询客户端实现    | [xengine](https://github.com/libxengine/phonedata) |
+| 待开始  | [lua_c](Source/lua_c) | lua c 扩展 xdb 查询客户端实现  | 待确定 |
+| 待开始  | [rust](Source/rust) | rust xdb 查询客户端实现          | 待确定 |
+| 待开始  | [python](Source/python) | python xdb 查询客户端实现    | 待确定 |
+| 待开始  | [nodejs](Source/nodejs) | nodejs xdb 查询客户端实现    | 待确定 |
+| 待开始  | [csharp](Source/csharp) | csharp xdb 查询客户端实现   | 待确定 |
+| 待开始  | [erlang](Source/erlang) | erlang xdb 查询客户端实现   | 待确定 |
+| 待开始  | [php_ext](Source/php7_ext) | php c 扩展 xdb 查询客户端实现 | 待确定 |
+| 待开始  | [nginx](Source/nginx) | nginx 扩展 xdb 查询客户端实现  | 待确定 |
