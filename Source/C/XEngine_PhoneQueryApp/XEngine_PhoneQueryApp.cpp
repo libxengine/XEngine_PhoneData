@@ -49,6 +49,14 @@ int main()
 	memcpy(tszMSGBuffer, ptszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
 	nPos += st_ProtocolHdr.unPacketSize;
 	printf("头分区内容:%s\n", tszMSGBuffer);
+	//得到类型映射
+	memcpy(&st_ProtocolHdr, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
+	nPos += sizeof(XENGINE_PROTOCOLHDR);
+
+	memset(tszMSGBuffer, '\0', sizeof(tszMSGBuffer));
+	memcpy(tszMSGBuffer, ptszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
+	nPos += st_ProtocolHdr.unPacketSize;
+	printf("索引个数:%d,内容:%s\n", st_ProtocolHdr.wPacketSerial, tszMSGBuffer);
 	//得到记录分区
 	memset(&st_ProtocolHdr, '\0', sizeof(XENGINE_PROTOCOLHDR));
 	memcpy(&st_ProtocolHdr, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
@@ -66,7 +74,7 @@ int main()
 	{
 		XENGINE_PHONEINFO st_PhoneInfo = {};
 
-		int nRet = _stxscanf(m_StrLine.c_str(), _X("%[^,],%[^,],%[^,],%s"), st_PhoneInfo.tszPhoneStr, st_PhoneInfo.tszAreaStr, st_PhoneInfo.tszPhoneType, st_PhoneInfo.tszTransferStr);
+		int nRet = _stxscanf(m_StrLine.c_str(), _X("%[^-]-%[^-]-%[^-]-%s"), st_PhoneInfo.tszPhoneStr, st_PhoneInfo.tszAreaStr, st_PhoneInfo.tszPhoneType, st_PhoneInfo.tszTransferStr);
 		if (nRet != 4)
 		{
 			break;
@@ -76,7 +84,7 @@ int main()
 		{
 			XCHAR tszLocationStr[MAX_PATH] = {};
 
-			memcpy(tszLocationStr, ptszMSGBuffer + _ttxoi(st_PhoneInfo.tszTransferStr), 14);
+			memcpy(tszLocationStr, ptszMSGBuffer + _ttxoi(st_PhoneInfo.tszTransferStr), 13);
 			printf("%s = %s\n", lpszPhoneStr, tszLocationStr);
 			break;
 		}
