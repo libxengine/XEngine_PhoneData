@@ -75,6 +75,12 @@ XENGINE_PROTOCOLHDR+199408840,028,1333
 | SATE     | 卫星通信   |
 | IOT      | 物联网     |
 
+###### 参与贡献
+Fork 本仓库  
+新建 Feat_xxx 分支  
+提交代码  
+新建 Pull Request  
+
 ## 代码结构
  - Data     数据库
  - Phone    提交记录文件夹
@@ -96,3 +102,7 @@ XENGINE_PROTOCOLHDR+199408840,028,1333
 | 待开始    | [erlang](Source/erlang)         | erlang 查询客户端实现        | 待确定 |
 | 待开始    | [php_ext](Source/php7_ext)      | php c 扩展 xdb 查询客户端实现 | 待确定 |
 | 待开始    | [nginx](Source/nginx)           | nginx 扩展 xdb 查询客户端实现 | 待确定 |
+
+## 免责声明
+本数据库仅用于学习研究,不得用于任何商业或非法用途,否则,一切后果请用户自负  
+本数据库来源互联网,版权归原作者所有,本人只是整理,如有侵权,请告知删除
