@@ -1,10 +1,8 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unordered_map>
 #include <string>
-#include <iostream>
-#include <sstream>
+#include <unordered_map>
 #include <XEngine_Include/XEngine_CommHdr.h>
 #include <XEngine_Include/XEngine_Types.h>
 #include <XEngine_Include/XEngine_ProtocolHdr.h>
@@ -47,26 +45,43 @@ int main()
 	//得到头分区数据
 	memcpy(&st_ProtocolHdr, ptszMSGBuffer, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
-
+	if (XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER != st_ProtocolHdr.wHeader || XENGIEN_COMMUNICATION_PACKET_PROTOCOL_TAIL != st_ProtocolHdr.wTail || ENUM_XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE != st_ProtocolHdr.unOperatorType)
+	{
+		return false;
+	}
 	memcpy(tszMSGBuffer, ptszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
 	nPos += st_ProtocolHdr.unPacketSize;
-	printf("头分区内容:%s\n", tszMSGBuffer);
 	//得到类型映射
-	memcpy(&st_ProtocolHdr, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
+	XENGINE_PROTOCOLHDR st_ProtocolMap = {};
+	memcpy(&st_ProtocolMap, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
 
 	memset(tszMSGBuffer, '\0', sizeof(tszMSGBuffer));
-	memcpy(tszMSGBuffer, ptszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
-	nPos += st_ProtocolHdr.unPacketSize;
-	printf("索引个数:%d,内容:%s\n", st_ProtocolHdr.wPacketSerial, tszMSGBuffer);
+	memcpy(tszMSGBuffer, ptszMSGBuffer + nPos, st_ProtocolMap.unPacketSize);
+	nPos += st_ProtocolMap.unPacketSize;
+	
+	std::unordered_map<int, std::string> stl_MapISPName;
+	XCHAR* ptszTokStr = _tcsxtok(tszMSGBuffer, _X(","));
+	while (NULL != ptszTokStr)
+	{
+		XCHAR tszKEYStr[16] = {};
+		XCHAR tszVLUStr[16] = {};
+		int nRet = _stxscanf(ptszTokStr, _X("%[^-]-%s"), tszKEYStr, tszVLUStr);
+		if (nRet != 2)
+		{
+			break;
+		}
+		stl_MapISPName.insert(std::make_pair(_ttxoi(tszKEYStr), tszVLUStr));
+		ptszTokStr = _tcsxtok(NULL, _X(","));
+	}
 	//得到记录分区
-	memset(&st_ProtocolHdr, '\0', sizeof(XENGINE_PROTOCOLHDR));
-	memcpy(&st_ProtocolHdr, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
+	XENGINE_PROTOCOLHDR st_ProtocolRecord = {};
+	memcpy(&st_ProtocolRecord, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
-	nPos += st_ProtocolHdr.unPacketSize;
+	nPos += st_ProtocolRecord.unPacketSize;
 	//得到索引分区
-	memset(&st_ProtocolHdr, '\0', sizeof(XENGINE_PROTOCOLHDR));
-	memcpy(&st_ProtocolHdr, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
+	memset(&st_ProtocolRecord, '\0', sizeof(XENGINE_PROTOCOLHDR));
+	memcpy(&st_ProtocolRecord, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
 
 	XCHAR* ptszPhoneIndex = (XCHAR*)malloc(XENGINE_MEMORY_SIZE_LARGE);
@@ -77,7 +92,7 @@ int main()
 	memset(ptszPhoneIndex, '\0', XENGINE_MEMORY_SIZE_LARGE);
 	memcpy(ptszPhoneIndex, ptszMSGBuffer + nPos, nFSize - nPos);
 
-	XCHAR* ptszTokStr = _tcsxtok(ptszPhoneIndex, _X("\n"));
+	ptszTokStr = _tcsxtok(ptszPhoneIndex, _X("\n"));
 	while (NULL != ptszTokStr)
 	{
 		XENGINE_PHONEINFO st_PhoneInfo = {};
