@@ -15,12 +15,13 @@
 8. 支持携号转网
 
 ## 数据库最新日期
-2024.06.22
+2024.06.26
 
 #### 索引区数量
-497191
+499527
 
 ## 数据格式
+协议头可以在https://github.com/libxengine/xengine/blob/master/XEngine_Include/XEngine_ProtocolHdr.h 找到.所属项目是https://github.com/libxengine/xengine  
 电话号码数据格式有四个分区,他们分别是头分区.类型分区,记录分区,索引分区.每个分区前面有一个XENGINE_PROTOCOLHDR的协议头  
 可以通过协议头来验证数据格式是否正确,协议头wHeader和wTail可以验证是否是标准协议  
 unOperatorType和unOperatorCode 可以验证协议类型,wCrypto可以验证后续内容是否加密,unPacketSize可以得到数据大小

@@ -15,6 +15,7 @@ typedef struct
 	XCHAR tszPhoneStr[64];
 	XCHAR tszAreaStr[64];
 	XCHAR tszPhoneType[64];
+	XCHAR tszIndexStr[64];
 	XCHAR tszTransferStr[64];
 }XENGINE_PHONEINFO;
 
@@ -22,7 +23,7 @@ typedef struct
 int main()
 {
 	LPCXSTR lpszFile = _X("D:\\phonedata\\Data\\phone_gbk.dat");
-	LPCXSTR lpszPhoneStr = _X("1369943");
+	LPCXSTR lpszPhoneStr = _X("1994088");
 	FILE* pSt_File = _xtfopen(lpszFile, _X("rb"));
 
 	if (NULL == pSt_File)
@@ -30,14 +31,15 @@ int main()
 		printf("read\n");
 		return -1;
 	}
-	XCHAR* ptszMSGBuffer = (XCHAR*)malloc(XENGINE_MEMORY_SIZE_MAX);
+	XCHAR* ptszMSGBuffer = (XCHAR*)malloc(XENGINE_MEMORY_SIZE_LARGE);
 	if (NULL == ptszMSGBuffer)
 	{
 		return -1;
 	}
-	memset(ptszMSGBuffer, '\0', XENGINE_MEMORY_SIZE_MAX);
+	memset(ptszMSGBuffer, '\0', XENGINE_MEMORY_SIZE_LARGE);
 
-	fread(ptszMSGBuffer, 1, XENGINE_MEMORY_SIZE_MAX, pSt_File);
+	size_t nFSize = fread(ptszMSGBuffer, 1, XENGINE_MEMORY_SIZE_LARGE, pSt_File);
+	fclose(pSt_File);
 
 	int nPos = 0;
 	XCHAR tszMSGBuffer[MAX_PATH] = {};
@@ -67,29 +69,36 @@ int main()
 	memcpy(&st_ProtocolHdr, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
 
-	std::string m_StrBuffer(ptszMSGBuffer + nPos);
-	std::istringstream m_StrStream(m_StrBuffer);
-	std::string m_StrLine;
-	while (std::getline(m_StrStream, m_StrLine))
+	XCHAR* ptszPhoneIndex = (XCHAR*)malloc(XENGINE_MEMORY_SIZE_LARGE);
+	if (NULL == ptszPhoneIndex)
+	{
+		return -1;
+	}
+	memset(ptszPhoneIndex, '\0', XENGINE_MEMORY_SIZE_LARGE);
+	memcpy(ptszPhoneIndex, ptszMSGBuffer + nPos, nFSize - nPos);
+
+	XCHAR* ptszTokStr = _tcsxtok(ptszPhoneIndex, _X("\n"));
+	while (NULL != ptszTokStr)
 	{
 		XENGINE_PHONEINFO st_PhoneInfo = {};
 
-		int nRet = _stxscanf(m_StrLine.c_str(), _X("%[^-]-%[^-]-%[^-]-%s"), st_PhoneInfo.tszPhoneStr, st_PhoneInfo.tszAreaStr, st_PhoneInfo.tszPhoneType, st_PhoneInfo.tszTransferStr);
-		if (nRet != 4)
+		int nRet = _stxscanf(ptszTokStr, _X("%[^-]-%[^-]-%[^-]-%[^-]-%s"), st_PhoneInfo.tszPhoneStr, st_PhoneInfo.tszAreaStr, st_PhoneInfo.tszPhoneType, st_PhoneInfo.tszIndexStr, st_PhoneInfo.tszTransferStr);
+		if (nRet != 5)
 		{
 			break;
 		}
-
 		if (0 == _tcsxnicmp(lpszPhoneStr, st_PhoneInfo.tszPhoneStr, _tcsxlen(lpszPhoneStr)))
 		{
 			XCHAR tszLocationStr[MAX_PATH] = {};
 
-			memcpy(tszLocationStr, ptszMSGBuffer + _ttxoi(st_PhoneInfo.tszTransferStr), 13);
+			memcpy(tszLocationStr, ptszMSGBuffer + _ttxoi(st_PhoneInfo.tszIndexStr), 13);
 			printf("%s = %s\n", lpszPhoneStr, tszLocationStr);
 			break;
 		}
+		ptszTokStr = _tcsxtok(NULL, _X("\n"));
 	}
 
-	fclose(pSt_File);
+	free(ptszMSGBuffer);
+	free(ptszPhoneIndex);
 	return 0;
 }
