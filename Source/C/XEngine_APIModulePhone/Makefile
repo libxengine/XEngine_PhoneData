@@ -59,10 +59,6 @@ pch.o:./pch.cpp
 	$(CC) $(DEBUG) $(FLAGS) $(UNICODE) $(PLATVER) $(LOADHDR) ./pch.cpp
 
 
-InstallAll:InstallSo 
-InstallSo:./libXEngine_APIModulePhone.$(FILEEXT)
-	cp ./libXEngine_APIModulePhone.$(FILEEXT) ../../../XEngine_Release/XEngine_LibPlugin/libXEngine_APIModulePhone.$(FILEEXT)
-
 CleanAll:CleanObj CleanMk
 CleanObj:                                               
 	rm *.o
