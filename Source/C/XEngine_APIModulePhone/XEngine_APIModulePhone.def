@@ -1,0 +1,8 @@
+LIBRARY
+
+EXPORTS
+	APIPhone_GetLastError
+
+	APIModule_PhoneNumber_Init
+	APIModule_PhoneNumber_UnInit
+	APIModule_PhoneNumber_Query
