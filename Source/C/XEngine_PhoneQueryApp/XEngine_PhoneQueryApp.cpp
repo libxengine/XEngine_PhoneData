@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <XEngine_Include/XEngine_CommHdr.h>
 #include <XEngine_Include/XEngine_Types.h>
+#include <XEngine_Include/XEngine_ProtocolHdr.h>
+#include "../../XPhone_CommHdr.h"
 #include "../XEngine_APIModulePhone/APIPhone_Define.h"
 #include "../XEngine_APIModulePhone/APIPhone_Error.h"
 

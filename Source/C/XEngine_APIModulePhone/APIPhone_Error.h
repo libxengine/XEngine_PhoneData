@@ -13,9 +13,9 @@
 //////////////////////////////////////////////////////////////////////////
 //                       错误定义
 //////////////////////////////////////////////////////////////////////////
-#define ERROR_XENGINE_PHONENUMBER_APIMODULE_PARAMENT 0xA001              //初始化失败.参数错误
-#define ERROR_XENGINE_PHONENUMBER_APIMODULE_OPENFILE 0xA002              //打开文件失败
-#define ERROR_XENGINE_PHONENUMBER_APIMODULE_MALLOC 0xA003                //申请内存失败
-#define ERROR_XENGINE_PHONENUMBER_APIMODULE_READ 0xA004                  //读取内容失败
-#define ERROR_XENGINE_PHONENUMBER_APIMODULE_VER 0xA005                   //验证失败,数据不正确
-#define ERROR_XENGINE_PHONENUMBER_APIMODULE_NOTFOUND 0xA006              //没有找到
+#define ERROR_XENGINE_PHONENUMBER_APIMODULE_PARAMENT 0xFA0001             //初始化失败.参数错误
+#define ERROR_XENGINE_PHONENUMBER_APIMODULE_OPENFILE 0xFA0002             //打开文件失败
+#define ERROR_XENGINE_PHONENUMBER_APIMODULE_MALLOC 0xFA0003               //申请内存失败
+#define ERROR_XENGINE_PHONENUMBER_APIMODULE_READ 0xFA0004                 //读取内容失败
+#define ERROR_XENGINE_PHONENUMBER_APIMODULE_VER 0xFA0005                  //验证失败,数据不正确
+#define ERROR_XENGINE_PHONENUMBER_APIMODULE_NOTFOUND 0xFA0006             //没有找到
