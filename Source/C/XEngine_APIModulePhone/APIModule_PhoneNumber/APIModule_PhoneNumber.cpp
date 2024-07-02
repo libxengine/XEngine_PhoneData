@@ -195,7 +195,7 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer)
 	//得到头分区数据
 	memcpy(&st_ProtocolHdr, lpszMSGBuffer, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
-	if (XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER != st_ProtocolHdr.wHeader || XENGIEN_COMMUNICATION_PACKET_PROTOCOL_TAIL != st_ProtocolHdr.wTail || ENUM_XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE != st_ProtocolHdr.unOperatorType)
+	if (XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER != st_ProtocolHdr.wHeader || XENGIEN_COMMUNICATION_PACKET_PROTOCOL_TAIL != st_ProtocolHdr.wTail || XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE != st_ProtocolHdr.unOperatorType)
 	{
 		APIPhone_IsErrorOccur = true;
 		APIPhone_dwErrorCode = ERROR_XENGINE_PHONENUMBER_APIMODULE_VER;

@@ -13,11 +13,8 @@
 //////////////////////////////////////////////////////////////////////////
 //                          主协议定义;unOperatorType
 //////////////////////////////////////////////////////////////////////////
-typedef enum
-{
-	//用户消息
-	ENUM_XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE = ENUM_XENGINE_COMMUNICATION_PROTOCOL_TYPE_USER + 100
-}ENUM_XENGINE_COMMUNICATION_PROTOCOL_TYPE_CUSTOM;
+#define XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE (ENUM_XENGINE_COMMUNICATION_PROTOCOL_TYPE_USER + 100)
+
 //银行卡类型
 typedef enum
 {
@@ -39,10 +36,10 @@ typedef enum
 //                          子协议定义:unOperatorCode
 //////////////////////////////////////////////////////////////////////////
 //后台服务协议
-#define XENGINE_COMMUNICATION_PROTOCOL_OPERATOR_CODE_PHONE_HDR 0x0001     //数据头
-#define XENGINE_COMMUNICATION_PROTOCOL_OPERATOR_CODE_PHONE_ISP 0x0002     //运营商
-#define XENGINE_COMMUNICATION_PROTOCOL_OPERATOR_CODE_PHONE_RECORD 0x0003  //数据记录集
-#define XENGINE_COMMUNICATION_PROTOCOL_OPERATOR_CODE_PHONE_INDEX 0x0004   //索引
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_HDR 0x0001              //数据头
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_ISP 0x0002              //运营商
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_RECORD 0x0003           //数据记录集
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_INDEX 0x0004            //索引
 //////////////////////////////////////////////////////////////////////////
 //                          数据结构定义
 //////////////////////////////////////////////////////////////////////////
