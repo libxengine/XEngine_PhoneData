@@ -27,7 +27,6 @@ private:
 	size_t nPos = 0;
 	size_t nFSize = 0;
 	XCHAR* ptszMSGBuffer = NULL;
-	XCHAR* ptszPhoneIndex = NULL;
 
 	XENGINE_PROTOCOLHDR st_ProtocolHdr = {};
 	XENGINE_PROTOCOLHDR st_ProtocolMap = {};
