@@ -214,6 +214,12 @@ std::string PhoneData::getRecordContent(const std::vector<char>& buffer, size_t 
 
 int main()
 {
+#ifndef _DEBUG
+	if (setlocale(LC_ALL, ".UTF8") == NULL)
+	{
+		return -1;
+	}
+#endif
 	PhoneData data;
 	auto info = data._lookUp(0);
 

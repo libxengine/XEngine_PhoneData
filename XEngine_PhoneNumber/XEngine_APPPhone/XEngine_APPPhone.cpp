@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 #include <list>
 #include <string>
 #include <XEngine_Include/XEngine_CommHdr.h>
@@ -130,6 +131,12 @@ bool XEngine_APPPhone_Phone(LPCXSTR lpszMSGBuffer, std::list<XENGINE_LOCATION>* 
 
 int main()
 {
+#ifndef _DEBUG
+	if (setlocale(LC_ALL, ".UTF8") == NULL)
+	{
+		return -1;
+	}
+#endif
     LPCXSTR lpszSrceFile = _X("D:\\phonedata\\Data\\Source.txt");
     LPCXSTR lspzDestFile = _X("D:\\phonedata\\Data\\Dest.txt");
     pSt_RFile = _xtfopen(lpszSrceFile, _X("rb"));

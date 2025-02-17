@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 #include <string>
 #include <unordered_map>
 #include <XEngine_Include/XEngine_CommHdr.h>
@@ -27,6 +28,13 @@
 
 int main()
 {
+#ifndef _DEBUG
+	if (setlocale(LC_ALL, ".UTF8") == NULL)
+	{
+		printf("Error setting locale.\n");
+		return false;
+	}
+#endif
 	LPCXSTR lpszFile = _X("D:\\phonedata\\Data\\phone_gbk.dat");
 	if (!APIModule_PhoneNumber_Init(lpszFile))
 	{
