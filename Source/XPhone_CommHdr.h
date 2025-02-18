@@ -1,53 +1,53 @@
-#pragma once
+ï»¿#pragma once
 /********************************************************************
 //    Created:     2024/06/24  14:04:51
 //    File Name:   D:\phonedata\Source\XPhone_CommHdr.h
 //    File Path:   D:\phonedata\Source
 //    File Base:   XPhone_CommHdr
 //    File Ext:    h
-//    Project:     XEngine(ÍøÂçÍ¨ÐÅÒýÇæ)
+//    Project:     XEngine(ç½‘ç»œé€šä¿¡å¼•æ“Ž)
 //    Author:      qyt
-//    Purpose:     ¹«ÓÃÍ·ÎÄ¼þ
+//    Purpose:     å…¬ç”¨å¤´æ–‡ä»¶
 //    History:
 *********************************************************************/
 //////////////////////////////////////////////////////////////////////////
-//                          Ö÷Ð­Òé¶¨Òå;unOperatorType
+//                          ä¸»åè®®å®šä¹‰;unOperatorType
 //////////////////////////////////////////////////////////////////////////
 #define XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE (ENUM_XENGINE_COMMUNICATION_PROTOCOL_TYPE_USER + 100)
 
-//ÒøÐÐ¿¨ÀàÐÍ
+//é“¶è¡Œå¡ç±»åž‹
 typedef enum
 {
-	ENUM_XENGINE_PHONE_TYPE_UNKNOWN = 0,	    //Î´Öª
-	ENUM_XENGINE_PHONE_TYPE_CMCC,               //ÖÐ¹úÒÆ¶¯
-	ENUM_XENGINE_PHONE_TYPE_CUCC,               //ÖÐ¹úÁªÍ¨
-	ENUM_XENGINE_PHONE_TYPE_CTCC,               //ÖÐ¹úµçÐÅ
-	ENUM_XENGINE_PHONE_TYPE_CRTG,               //ÖÐ¹ú¹ãµç
-	ENUM_XENGINE_PHONE_TYPE_CTCC_V,             //µçÐÅÐéÄâ
-	ENUM_XENGINE_PHONE_TYPE_CUCC_V,             //ÁªÍ¨ÐéÄâ
-	ENUM_XENGINE_PHONE_TYPE_CMCC_V,             //ÒÆ¶¯ÐéÄâ
-	ENUM_XENGINE_PHONE_TYPE_CTCC_I,             //µçÐÅ×ù»ú
-	ENUM_XENGINE_PHONE_TYPE_CUCC_I,             //ÁªÍ¨×ù»ú
-	ENUM_XENGINE_PHONE_TYPE_CMCC_I,             //ÒÆ¶¯×ù»ú
-	ENUM_XENGINE_PHONE_TYPE_SATE,               //ÎÀÐÇÍ¨ÐÅ
-	ENUM_XENGINE_PHONE_TYPE_IOT                 //ÎïÁªÍø
+	ENUM_XENGINE_PHONE_TYPE_UNKNOWN = 0,	    //æœªçŸ¥
+	ENUM_XENGINE_PHONE_TYPE_CMCC,               //ä¸­å›½ç§»åŠ¨
+	ENUM_XENGINE_PHONE_TYPE_CUCC,               //ä¸­å›½è”é€š
+	ENUM_XENGINE_PHONE_TYPE_CTCC,               //ä¸­å›½ç”µä¿¡
+	ENUM_XENGINE_PHONE_TYPE_CRTG,               //ä¸­å›½å¹¿ç”µ
+	ENUM_XENGINE_PHONE_TYPE_CTCC_V,             //ç”µä¿¡è™šæ‹Ÿ
+	ENUM_XENGINE_PHONE_TYPE_CUCC_V,             //è”é€šè™šæ‹Ÿ
+	ENUM_XENGINE_PHONE_TYPE_CMCC_V,             //ç§»åŠ¨è™šæ‹Ÿ
+	ENUM_XENGINE_PHONE_TYPE_CTCC_I,             //ç”µä¿¡åº§æœº
+	ENUM_XENGINE_PHONE_TYPE_CUCC_I,             //è”é€šåº§æœº
+	ENUM_XENGINE_PHONE_TYPE_CMCC_I,             //ç§»åŠ¨åº§æœº
+	ENUM_XENGINE_PHONE_TYPE_SATE,               //å«æ˜Ÿé€šä¿¡
+	ENUM_XENGINE_PHONE_TYPE_IOT                 //ç‰©è”ç½‘
 }ENUM_XENGINE_PHONE_TYPE;
 //////////////////////////////////////////////////////////////////////////
-//                          ×ÓÐ­Òé¶¨Òå:unOperatorCode
+//                          å­åè®®å®šä¹‰:unOperatorCode
 //////////////////////////////////////////////////////////////////////////
-//ºóÌ¨·þÎñÐ­Òé
-#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_HDR 0x0001              //Êý¾ÝÍ·
-#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_ISP 0x0002              //ÔËÓªÉÌ
-#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_RECORD 0x0003           //Êý¾Ý¼ÇÂ¼¼¯
-#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_INDEX 0x0004            //Ë÷Òý
+//åŽå°æœåŠ¡åè®®
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_HDR 0x0001              //æ•°æ®å¤´
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_ISP 0x0002              //è¿è¥å•†
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_RECORD 0x0003           //æ•°æ®è®°å½•é›†
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_INDEX 0x0004            //ç´¢å¼•
 //////////////////////////////////////////////////////////////////////////
-//                          Êý¾Ý½á¹¹¶¨Òå
+//                          æ•°æ®ç»“æž„å®šä¹‰
 //////////////////////////////////////////////////////////////////////////
 typedef struct
 {
-	XCHAR tszPhoneNumber[64];   //µç»°ºÅÂë
-	XCHAR tszProvincer[64];     //Ê¡/×ÔÖÎÇø/Ö±Ï½ÊÐ
-	XCHAR tszCity[64];          //ÊÐ/Çø     
-	XCHAR tszAreaCode[64];      //ÇøºÅ
-	XCHAR tszISPName[64];       //ÔËÓªÉÌÃû³Æ
+	XCHAR tszPhoneNumber[64];   //ç”µè¯å·ç 
+	XCHAR tszProvincer[64];     //çœ/è‡ªæ²»åŒº/ç›´è¾–å¸‚
+	XCHAR tszCity[64];          //å¸‚/åŒº     
+	XCHAR tszAreaCode[64];      //åŒºå·
+	XCHAR tszISPName[64];       //è¿è¥å•†åç§°
 }XENGINE_PHONEINFO;
