@@ -14,24 +14,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决�
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Debug|ARM64.Build.0 = Debug|ARM64
 		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Debug|x64.ActiveCfg = Debug|x64
 		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Debug|x64.Build.0 = Debug|x64
 		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Debug|x86.ActiveCfg = Debug|Win32
 		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Debug|x86.Build.0 = Debug|Win32
+		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Release|ARM64.ActiveCfg = Release|ARM64
+		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Release|ARM64.Build.0 = Release|ARM64
 		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Release|x64.ActiveCfg = Release|x64
 		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Release|x64.Build.0 = Release|x64
 		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Release|x86.ActiveCfg = Release|Win32
 		{6E8FDCE2-0507-4B6D-ADA9-0DC17807A8D5}.Release|x86.Build.0 = Release|Win32
+		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Debug|ARM64.Build.0 = Debug|ARM64
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Debug|x64.ActiveCfg = Debug|x64
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Debug|x64.Build.0 = Debug|x64
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Debug|x86.ActiveCfg = Debug|Win32
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Debug|x86.Build.0 = Debug|Win32
+		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Release|ARM64.ActiveCfg = Release|ARM64
+		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Release|ARM64.Build.0 = Release|ARM64
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Release|x64.ActiveCfg = Release|x64
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Release|x64.Build.0 = Release|x64
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Release|x86.ActiveCfg = Release|Win32

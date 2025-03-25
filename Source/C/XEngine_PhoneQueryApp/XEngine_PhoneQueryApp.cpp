@@ -11,17 +11,23 @@
 #include "../XEngine_APIModulePhone/APIPhone_Define.h"
 #include "../XEngine_APIModulePhone/APIPhone_Error.h"
 
+#ifdef _MSC_BUILD
 #ifdef _DEBUG
-#ifdef _WIN64
+#ifdef _M_X64
 #pragma comment(lib,"../x64/Debug/XEngine_APIModulePhone")
-#else
+#elif _M_ARM64
+#pragma comment(lib,"../ARM64/Debug/XEngine_APIModulePhone")
+#elif _M_IX86
 #pragma comment(lib,"../Debug/XEngine_APIModulePhone")
 #endif
 #else
-#ifdef _WIN64
+#ifdef _M_X64
 #pragma comment(lib,"../x64/Release/XEngine_APIModulePhone")
-#else
+#elif _M_ARM64
+#pragma comment(lib,"../ARM64/Release/XEngine_APIModulePhone")
+#elif _M_IX86
 #pragma comment(lib,"../Release/XEngine_APIModulePhone")
+#endif
 #endif
 #endif
 //这只是个简单示例.更复杂的查找方法和算法需要自己实现
