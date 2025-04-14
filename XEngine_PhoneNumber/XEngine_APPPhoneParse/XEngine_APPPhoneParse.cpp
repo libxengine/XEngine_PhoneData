@@ -138,7 +138,7 @@ std::string getPhoneType(CARDTYPE type)
 
 PhoneData::PhoneData()
 {
-	std::wstring path = L"phone.dat";
+	std::wstring path = L"D:\\XEngine_PhoneData\\Data\\phone.dat";
 	std::ifstream stream(path, std::ios::binary);
 	if (!stream.is_open())
 	{
@@ -157,7 +157,7 @@ PhoneInfo PhoneData::_lookUp(uint32_t phone7) const
 	size_t left = 0;
 	size_t currentOffset = head->offset;
 
-	FILE* pSt_File = fopen("D:\\phonedata\\Data\\Source.txt", "wb");
+	FILE* pSt_File = fopen("D:\\XEngine_PhoneData\\Data\\Source.txt", "wb");
 
 	int nLen = head->offset - 9;
 	XCHAR* ptszMSGBuffer = (XCHAR*)malloc(XENGINE_MEMORY_SIZE_MAX);

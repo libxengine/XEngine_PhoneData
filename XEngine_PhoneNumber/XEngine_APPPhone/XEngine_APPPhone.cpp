@@ -67,8 +67,6 @@ bool XEngine_APPPhone_Location(LPCXSTR lpszMSGBuffer, std::list<XENGINE_LOCATION
 		BaseLib_Charset_AnsiToUTF(tszLocationStr, tszUTFBuffer, &nRet);
 		fwrite(tszUTFBuffer, 1, nRet, pSt_WFile);
 #else
-		XCHAR tszUTFBuffer[MAX_PATH] = {};
-		BaseLib_Charset_AnsiToUTF(tszLocationStr, tszUTFBuffer, &nRet);
 		fwrite(tszLocationStr, 1, nRet, pSt_WFile);
 #endif
         nPos += nRet;
@@ -137,8 +135,8 @@ int main()
 		return -1;
 	}
 #endif
-    LPCXSTR lpszSrceFile = _X("D:\\phonedata\\Data\\Source.txt");
-    LPCXSTR lspzDestFile = _X("D:\\phonedata\\Data\\Dest.txt");
+    LPCXSTR lpszSrceFile = _X("D:\\XEngine_PhoneData\\Data\\Source.txt");
+    LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\Data\\Dest.txt");
     pSt_RFile = _xtfopen(lpszSrceFile, _X("rb"));
     pSt_WFile = _xtfopen(lspzDestFile, _X("wb"));
 
