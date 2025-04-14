@@ -15,10 +15,10 @@
 8. 支持携号转网
 
 ## 数据库最新日期
-2024.06.26
+2025.04.14
 
 #### 索引区数量
-499527
+517259
 
 ## 数据格式
 协议头可以在https://github.com/libxengine/libxengine/blob/master/XEngine_Include/XEngine_ProtocolHdr.h 找到.所属项目是https://github.com/libxengine/libxengine  
@@ -108,3 +108,6 @@ Fork 本仓库
 ## 免责声明
 本数据库仅用于学习研究,不得用于任何商业或非法用途,否则,一切后果请用户自负  
 本数据库来源互联网,版权归原作者所有,本人只是整理,如有侵权,请告知删除
+
+#### 数据来源
+https://github.com/pangongzi/phone.git
