@@ -36,31 +36,22 @@ typedef struct
 	XCHAR tszTransferStr[64];
 }XENGINE_PHONEINTERNAL;
 
-bool XEngine_APPPhone_Location(LPCXSTR lpszMSGBuffer, std::list<XENGINE_LOCATION>* pStl_ListLocation)
+bool XEngine_APPPhone_Location(XCHAR * ptszMSGBuffer, std::list<XENGINE_LOCATION>* pStl_ListLocation)
 {
-    XCHAR* ptszMSGBuffer = (XCHAR*)malloc(XENGINE_MEMORY_SIZE_MAX);
-    if (NULL == ptszMSGBuffer)
-    {
-        return false;
-    }
-    memset(ptszMSGBuffer, '\0', XENGINE_MEMORY_SIZE_MAX);
+	char* ptszTokStr = ptszMSGBuffer;
+	// 遍历数组，直到指针指向 \0
+	while (*ptszTokStr != '\0')
+	{
+		XCHAR tszLocationStr[MAX_PATH] = {};
+		XENGINE_LOCATION st_Location = {};
 
-    _tcsxcpy(ptszMSGBuffer, lpszMSGBuffer);
-
-    LPCXSTR lpszDelimiter = _X(" ");
-    XCHAR* ptszTokStr = _tcsxtok(ptszMSGBuffer, lpszDelimiter);
-    while (NULL != ptszTokStr)
-    {
-        XCHAR tszLocationStr[MAX_PATH] = {};
-        XENGINE_LOCATION st_Location = {};
-
-        st_Location.nPos = nPos;
-        int nRet = _stxscanf(ptszTokStr, _X("%[^|]|%[^|]|%[^|]|%s"), st_Location.tszProvinceStr, st_Location.tszCityStr, st_Location.tszCodeStr, st_Location.tszAreaStr);
-        if (nRet != 4)
-        {
-            break;
-        }
-        nRet = _xstprintf(tszLocationStr, _X("%s-%s-%s "), st_Location.tszAreaStr, st_Location.tszProvinceStr, st_Location.tszCityStr);
+		st_Location.nPos = nPos;
+		int nRet = _stxscanf(ptszTokStr, _X("%[^|]|%[^|]|%[^|]|%s"), st_Location.tszProvinceStr, st_Location.tszCityStr, st_Location.tszCodeStr, st_Location.tszAreaStr);
+		if (nRet != 4)
+		{
+			break;
+		}
+		nRet = _xstprintf(tszLocationStr, _X("%s-%s-%s "), st_Location.tszAreaStr, st_Location.tszProvinceStr, st_Location.tszCityStr);
 
 #ifdef _XENGINE_APPPHONE_CHARSET_UTF
 		XCHAR tszUTFBuffer[MAX_PATH] = {};
@@ -69,10 +60,11 @@ bool XEngine_APPPhone_Location(LPCXSTR lpszMSGBuffer, std::list<XENGINE_LOCATION
 #else
 		fwrite(tszLocationStr, 1, nRet, pSt_WFile);
 #endif
-        nPos += nRet;
-        pStl_ListLocation->push_back(st_Location);
-        ptszTokStr = _tcsxtok(NULL, lpszDelimiter);
-    }
+		nPos += nRet;
+		pStl_ListLocation->push_back(st_Location);
+
+        ptszTokStr += strlen(ptszTokStr) + 1;     // 移动指针到下一个子字符串的开始
+	}
     return true;
 }
 bool XEngine_APPPhone_Phone(LPCXSTR lpszMSGBuffer, std::list<XENGINE_LOCATION>* pStl_ListLocation)
@@ -136,7 +128,11 @@ int main()
 	}
 #endif
     LPCXSTR lpszSrceFile = _X("D:\\XEngine_PhoneData\\Data\\Source.txt");
-    LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\Data\\Dest.txt");
+#ifdef _XENGINE_APPPHONE_CHARSET_UTF
+    LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\Data\\phone_utf.dat");
+#else
+    LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\Data\\phone_gbk.dat");
+#endif
     pSt_RFile = _xtfopen(lpszSrceFile, _X("rb"));
     pSt_WFile = _xtfopen(lspzDestFile, _X("wb"));
 
@@ -152,7 +148,7 @@ int main()
     }
     XENGINE_PROTOCOLHDR st_ProtocolHdr = {};
     //////////////////////////////////////////////////////////////////////////HDR
-	LPCXSTR lpszFVer = _X("20240622");
+	LPCXSTR lpszFVer = _X("20250414");
     int nHLen = _tcsxlen(lpszFVer);
 
     st_ProtocolHdr.wHeader = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER;
@@ -190,7 +186,17 @@ int main()
         return -1;
     }
     memset(ptszMSGBuffer, '\0', XENGINE_MEMORY_SIZE_MAX);
-    fgets(ptszMSGBuffer, XENGINE_MEMORY_SIZE_MAX, pSt_RFile);
+
+    int i = 0;
+    while (true)
+    {
+		XCHAR ch = fgetc(pSt_RFile);
+        if (ch == '\n')
+        {
+            break;
+        }
+		ptszMSGBuffer[i++] = ch;
+    }
 
     int nNow = nPos;
     fwrite(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_WFile);
