@@ -150,7 +150,7 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Query(XENGINE_PHONEINFO *pSt_
 		std::string m_StrPhone = APIModule_PhoneNumber_7Digits(pSt_PhoneInfo->tszPhoneNumber);
 		if (0 == _tcsxnicmp(m_StrPhone.c_str(), st_PhoneIndex.tszPhoneStr, m_StrPhone.length()))
 		{
-			XCHAR tszLocationStr[MAX_PATH] = {};
+			XCHAR tszLocationStr[XPATH_MAX] = {};
 			memcpy(tszLocationStr, ptszMSGBuffer + _ttxoi(st_PhoneIndex.tszIndexStr), 64);
 
 			XCHAR* ptszSubTmp = NULL;
@@ -191,7 +191,7 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer)
 	APIPhone_IsErrorOccur = false;
 
 	nPos = 0;
-	XCHAR tszMSGBuffer[MAX_PATH] = {};
+	XCHAR tszMSGBuffer[XPATH_MAX] = {};
 	//得到头分区数据
 	memcpy(&st_ProtocolHdr, lpszMSGBuffer, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);

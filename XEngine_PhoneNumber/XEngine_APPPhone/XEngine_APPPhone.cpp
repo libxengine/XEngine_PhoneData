@@ -42,7 +42,7 @@ bool XEngine_APPPhone_Location(XCHAR * ptszMSGBuffer, std::list<XENGINE_LOCATION
 	// 遍历数组，直到指针指向 \0
 	while (*ptszTokStr != '\0')
 	{
-		XCHAR tszLocationStr[MAX_PATH] = {};
+		XCHAR tszLocationStr[XPATH_MAX] = {};
 		XENGINE_LOCATION st_Location = {};
 
 		st_Location.nPos = nPos;
@@ -54,7 +54,7 @@ bool XEngine_APPPhone_Location(XCHAR * ptszMSGBuffer, std::list<XENGINE_LOCATION
 		nRet = _xstprintf(tszLocationStr, _X("%s-%s-%s "), st_Location.tszAreaStr, st_Location.tszProvinceStr, st_Location.tszCityStr);
 
 #ifdef _XENGINE_APPPHONE_CHARSET_UTF
-		XCHAR tszUTFBuffer[MAX_PATH] = {};
+		XCHAR tszUTFBuffer[XPATH_MAX] = {};
 		BaseLib_Charset_AnsiToUTF(tszLocationStr, tszUTFBuffer, &nRet);
 		fwrite(tszUTFBuffer, 1, nRet, pSt_WFile);
 #else
@@ -69,7 +69,7 @@ bool XEngine_APPPhone_Location(XCHAR * ptszMSGBuffer, std::list<XENGINE_LOCATION
 }
 bool XEngine_APPPhone_Phone(LPCXSTR lpszMSGBuffer, std::list<XENGINE_LOCATION>* pStl_ListLocation)
 {
-	XCHAR tszPhoneStr[MAX_PATH] = {};
+	XCHAR tszPhoneStr[XPATH_MAX] = {};
 	XENGINE_PHONEINTERNAL st_PhoneInfo = {};
 
 	int nRet = _stxscanf(lpszMSGBuffer, _X("%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%s"), st_PhoneInfo.tszSerialStr, st_PhoneInfo.tszPhoneStr, st_PhoneInfo.tszPhoneType, st_PhoneInfo.tszProvinceStr, st_PhoneInfo.tszCityStr, st_PhoneInfo.tszAreaStr, st_PhoneInfo.tszTransferStr);
@@ -221,8 +221,8 @@ int main()
     int nCount = 0;
     while (1)
     {
-        XCHAR tszMSGBuffer[MAX_PATH] = {};
-        if (NULL == fgets(tszMSGBuffer, MAX_PATH, pSt_RFile))
+        XCHAR tszMSGBuffer[XPATH_MAX] = {};
+        if (NULL == fgets(tszMSGBuffer, XPATH_MAX, pSt_RFile))
         {
             break;
         }

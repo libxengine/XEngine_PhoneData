@@ -195,7 +195,7 @@ PhoneInfo PhoneData::_lookUp(uint32_t phone7) const
 		BaseLib_Charset_UTFToAnsi(info.province.c_str(), tszProvinceStr, &nPLen);
 		BaseLib_Charset_UTFToAnsi(info.city.c_str(), tszCityStr, &nCLen);
 
-		XCHAR tszMSGBuffer[MAX_PATH] = {};
+		XCHAR tszMSGBuffer[XPATH_MAX] = {};
 		int nRet = sprintf(tszMSGBuffer, "%d,%d,%d,%s,%s,%s,0\r\n", i++, info.phone, info.type, tszProvinceStr, tszCityStr, info.areaCode.c_str());
 		fwrite(tszMSGBuffer, 1, nRet, pSt_File);
 
