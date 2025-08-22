@@ -18,9 +18,21 @@
     <ClCompile Include="XEngine_APPPhone.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="XEngine_PhonePacket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XEngine_PhoneUNPack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\XPhone_CommHdr.h">
+    <ClInclude Include="XEngine_PhonePacket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XEngine_PhoneUNPack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XEngine_PhoneHdr.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

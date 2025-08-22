@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XEngine_APIModulePhone", "XEngine_APIModulePhone\XEngine_APIModulePhone.vcxproj", "{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XEngine_APPPhone", "XEngine_APPPhone\XEngine_APPPhone.vcxproj", "{E55C5947-91A3-4199-A5DF-F378F5A279C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -27,6 +29,18 @@ Global
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Release|x64.Build.0 = Release|x64
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Release|x86.ActiveCfg = Release|Win32
 		{A13B72E7-FC40-4A27-81C3-26DF3C8F4C0A}.Release|x86.Build.0 = Release|Win32
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Debug|ARM64.Build.0 = Debug|ARM64
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Debug|x64.ActiveCfg = Debug|x64
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Debug|x64.Build.0 = Debug|x64
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Debug|x86.ActiveCfg = Debug|Win32
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Debug|x86.Build.0 = Debug|Win32
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Release|ARM64.ActiveCfg = Release|ARM64
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Release|ARM64.Build.0 = Release|ARM64
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Release|x64.ActiveCfg = Release|x64
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Release|x64.Build.0 = Release|x64
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Release|x86.ActiveCfg = Release|Win32
+		{E55C5947-91A3-4199-A5DF-F378F5A279C1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
