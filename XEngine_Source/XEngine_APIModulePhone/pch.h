@@ -21,7 +21,7 @@
 #include <XEngine_Include/XEngine_CommHdr.h>
 #include <XEngine_Include/XEngine_Types.h>
 #include <XEngine_Include/XEngine_ProtocolHdr.h>
-#include "../../XPhone_CommHdr.h"
+#include "../XPhone_CommHdr.h"
 #include "APIPhone_Define.h"
 #include "APIPhone_Error.h"
 using namespace std;
