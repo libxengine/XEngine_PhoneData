@@ -10,136 +10,159 @@
 //    Purpose:     应用程序
 //    History:
 *********************************************************************/
-int nPos = 0;
-FILE* pSt_RFile = NULL;
-FILE* pSt_WFile = NULL;
+XHANDLE xhLog = NULL;
+HELPCOMPONENTS_XLOG_CONFIGURE st_XLogConfigure = {};
+PHONEMODULE_APPPARAMETER st_APPParameter = {};
+
+void XEngine_APPPhone_Stop(int signo)
+{
+#ifdef _WINDOWS
+	HelpComponents_XLog_Destroy(xhLog);
+
+#endif
+	exit(0);
+}
 
 int main()
 {
-    CXEngine_PhonePacket m_PhonePacket;
-    CXEngine_PhoneUNPack m_PhoneUNPack;
+    FILE* pSt_ISPFile = NULL;
+    FILE* pSt_LocationFile = NULL;
+    FILE* pSt_PhoneFile = NULL;
+    FILE* pSt_DBDestFile = NULL;
+
 #ifndef _DEBUG
 	if (setlocale(LC_ALL, ".UTF8") == NULL)
 	{
 		return -1;
 	}
 #endif
-    LPCXSTR lpszSrceFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\Source.txt");
+	LPCXSTR lpszISPFile = _X("D:\\XEngine_PhoneData\\XEngine_DBSource\\ISP.txt");
+	LPCXSTR lpszLocationFile = _X("D:\\XEngine_PhoneData\\XEngine_DBSource\\Location.txt");
+	LPCXSTR lpszPhoneFile = _X("D:\\XEngine_PhoneData\\XEngine_DBSource\\Phone.txt");
+
 #ifdef _XENGINE_APPPHONE_CHARSET_UTF
-    LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_utf.dat");
+	LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_utf1.dat");
 #else
-    LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_gbk.dat");
+	LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_gbk1.dat");
 #endif
-    pSt_RFile = _xtfopen(lpszSrceFile, _X("rb"));
-    pSt_WFile = _xtfopen(lspzDestFile, _X("wb"));
 
-    if (NULL == pSt_RFile)
+	xhLog = HelpComponents_XLog_Init(HELPCOMPONENTS_XLOG_OUTTYPE_STD, &st_XLogConfigure);
+	if (NULL == xhLog)
+	{
+		printf("启动服务中,启动日志失败,错误：%lX", XLog_GetLastError());
+        goto XENGINE_APPPHONE_EXIT;
+	}
+	//设置日志打印级别
+	HelpComponents_XLog_SetLogPriority(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO);
+	XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,初始化日志系统成功"));
+
+	signal(SIGINT, XEngine_APPPhone_Stop);
+	signal(SIGTERM, XEngine_APPPhone_Stop);
+	signal(SIGABRT, XEngine_APPPhone_Stop);
+	XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,初始化信号量处理程序成功"));
+	//打包
+	st_APPParameter.bPacket = true;
+    if (st_APPParameter.bPacket)
     {
-        printf("read\n");
-        return -1;
+		CXEngine_PhonePacket m_PhonePacket;
+
+		XCHAR tszISPBuffer[XPATH_MAX] = {};
+		XCHAR tszLocationBuffer[4096] = {};
+
+		pSt_ISPFile = _xtfopen(lpszISPFile, _X("rb"));
+		if (NULL == pSt_ISPFile)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,打开ISP源失败"));
+			goto XENGINE_APPPHONE_EXIT;
+		}
+		int nRet = fread(tszISPBuffer, 1, XPATH_MAX, pSt_ISPFile);
+		fclose(pSt_ISPFile);
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,读取ISP源成功,数据大小:%d"), nRet);
+
+		pSt_LocationFile = _xtfopen(lpszLocationFile, _X("rb"));
+		if (NULL == pSt_ISPFile)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,打开位置源失败"));
+			return -1;
+		}
+		nRet = fread(tszLocationBuffer, 1, sizeof(tszLocationBuffer), pSt_ISPFile);
+		fclose(pSt_LocationFile);
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,读取Location源成功,数据大小:%d"), nRet);
+
+		pSt_PhoneFile = _xtfopen(lpszPhoneFile, _X("rb"));
+		if (NULL == pSt_ISPFile)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,打开电话源失败"));
+			return -1;
+		}
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,读取Phone源成功"));
+
+		pSt_DBDestFile = _xtfopen(lspzDestFile, _X("wb"));
+		if (NULL == pSt_DBDestFile)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,创建目标失败"));
+			return -1;
+		}
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,创建目标成功"));
+		//////////////////////////////////////////////////////////////////////////HDR
+		int nMSGLen = 0;
+		XCHAR tszMSGBuffer[1024] = {};
+
+		m_PhonePacket.XEngine_PhonePacket_Header(tszMSGBuffer, &nMSGLen);
+		fwrite(tszMSGBuffer, 1, nMSGLen, pSt_DBDestFile);
+		//////////////////////////////////////////////////////////////////////////ISP
+		nMSGLen = 0;
+		memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
+
+		m_PhonePacket.XEngine_PhonePacket_ISPInfo(tszMSGBuffer, &nMSGLen, tszISPBuffer);
+		fwrite(tszMSGBuffer, 1, nMSGLen, pSt_DBDestFile);
+		//////////////////////////////////////////////////////////////////////////Location
+		nMSGLen = 0;
+		memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
+
+		m_PhonePacket.XEngine_PhonePacket_LocationInfo(tszMSGBuffer, &nMSGLen, tszLocationBuffer);
+		fwrite(tszMSGBuffer, 1, nMSGLen, pSt_DBDestFile);
+		//////////////////////////////////////////////////////////////////////////Phone
+		int nCount = 0;
+		nMSGLen = 0;
+		memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
+
+		while (1)
+		{
+			XCHAR tszMSGBuffer[XPATH_MAX] = {};
+			if (NULL == fgets(tszMSGBuffer, XPATH_MAX, pSt_PhoneFile))
+			{
+				break;
+			}
+			nCount++;
+		}
+		m_PhonePacket.XEngine_PhonePacket_PHoneInfo(tszMSGBuffer, &nMSGLen, nCount);
+		fwrite(tszMSGBuffer, 1, nMSGLen, pSt_DBDestFile);
+
+		while (1)
+		{
+			XCHAR tszMSGBuffer[XPATH_MAX] = {};
+			if (NULL == fgets(tszMSGBuffer, XPATH_MAX, pSt_PhoneFile))
+			{
+				break;
+			}
+			fwrite(tszMSGBuffer, 1, _tcsxlen(tszMSGBuffer), pSt_DBDestFile);
+		}
+		fclose(pSt_DBDestFile);
     }
-    if (NULL == pSt_WFile)
+    else
     {
-		printf("write\n");
-		return -1;
+		CXEngine_PhoneUNPack m_PhoneUNPack;
     }
-    XENGINE_PROTOCOLHDR st_ProtocolHdr = {};
-    //////////////////////////////////////////////////////////////////////////HDR
-	LPCXSTR lpszFVer = _X("20250414");
-    int nHLen = _tcsxlen(lpszFVer);
-
-    st_ProtocolHdr.wHeader = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER;
-    st_ProtocolHdr.byVersion = ENUM_XENGINE_PROTOCOLHDR_PAYLOAD_TYPE_STRING;
-    st_ProtocolHdr.unOperatorType = XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE;
-    st_ProtocolHdr.unOperatorCode = XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_HDR;
-    st_ProtocolHdr.unPacketSize = nHLen;
-    st_ProtocolHdr.wCrypto = 0;
-    st_ProtocolHdr.wTail = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_TAIL;
-
-    fwrite(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_WFile);
-    nPos += sizeof(XENGINE_PROTOCOLHDR);
-	fwrite(lpszFVer, 1, nHLen, pSt_WFile);
-    nPos += nHLen;
-    //////////////////////////////////////////////////////////////////////////ISP
-    LPCXSTR lpszISPName = _X("0-UNKNOW,1-CMCC,2-CUCC,3-CTCC,4-CRTG,10-CTCC_V,11-CUCC_V,12-CMCC_V,20-CTCC_I,21-CUCC_I,22-CMCC_I,30-SATE,31-IOT");
-    nHLen = _tcsxlen(lpszISPName);
-	st_ProtocolHdr.wHeader = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER;
-	st_ProtocolHdr.byVersion = ENUM_XENGINE_PROTOCOLHDR_PAYLOAD_TYPE_STRING;
-	st_ProtocolHdr.unOperatorType = XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE;
-	st_ProtocolHdr.unOperatorCode = XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_ISP;
-	st_ProtocolHdr.unPacketSize = nHLen;
-    st_ProtocolHdr.wPacketSerial = 13;
-	st_ProtocolHdr.wCrypto = 0;
-	st_ProtocolHdr.wTail = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_TAIL;
-
-	fwrite(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_WFile);
-	nPos += sizeof(XENGINE_PROTOCOLHDR);
-	fwrite(lpszISPName, 1, nHLen, pSt_WFile);
-	nPos += nHLen;
-    //////////////////////////////////////////////////////////////////////////
-    XCHAR* ptszMSGBuffer = (XCHAR*)malloc(XENGINE_MEMORY_SIZE_MAX);
-    if (NULL == ptszMSGBuffer)
-    {
-        return -1;
-    }
-    memset(ptszMSGBuffer, '\0', XENGINE_MEMORY_SIZE_MAX);
-
-    int i = 0;
-    while (true)
-    {
-		XCHAR ch = fgetc(pSt_RFile);
-        if (ch == '\n')
-        {
-            break;
-        }
-		ptszMSGBuffer[i++] = ch;
-    }
-
-    int nNow = nPos;
-    fwrite(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_WFile);
-	nPos += sizeof(XENGINE_PROTOCOLHDR);
-    std::list<XENGINE_LOCATION> stl_ListLocation;
-    m_PhonePacket.XEngine_PhonePacket_Location(ptszMSGBuffer, &stl_ListLocation);
-    //重新覆写头
-	st_ProtocolHdr.wHeader = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER;
-	st_ProtocolHdr.byVersion = ENUM_XENGINE_PROTOCOLHDR_PAYLOAD_TYPE_STRING;
-	st_ProtocolHdr.unOperatorType = XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE;
-	st_ProtocolHdr.unOperatorCode = XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_RECORD;
-	st_ProtocolHdr.unPacketSize = nPos - nNow - sizeof(XENGINE_PROTOCOLHDR);
-	st_ProtocolHdr.wCrypto = 0;
-	st_ProtocolHdr.wTail = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_TAIL;
-    fseek(pSt_WFile, nNow, SEEK_SET);
-	fwrite(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_WFile);
     
-    nNow = nPos;
-    fseek(pSt_WFile, 0, SEEK_END);
-    fwrite(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_WFile);
-    nPos += sizeof(XENGINE_PROTOCOLHDR);
-    int nCount = 0;
-    while (1)
-    {
-        XCHAR tszMSGBuffer[XPATH_MAX] = {};
-        if (NULL == fgets(tszMSGBuffer, XPATH_MAX, pSt_RFile))
-        {
-            break;
-        }
-        tszMSGBuffer[_tcsxlen(tszMSGBuffer) - 1] = '\0';
-        tszMSGBuffer[_tcsxlen(tszMSGBuffer) - 1] = '\0';
-   
-        nCount++;
-        m_PhonePacket.XEngine_PhonePacket_Phone(tszMSGBuffer, &stl_ListLocation);
-    }
-	st_ProtocolHdr.wHeader = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER;
-	st_ProtocolHdr.byVersion = ENUM_XENGINE_PROTOCOLHDR_PAYLOAD_TYPE_STRING;
-	st_ProtocolHdr.unOperatorType = XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE;
-	st_ProtocolHdr.unOperatorCode = XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_INDEX;
-	st_ProtocolHdr.unPacketSize = nCount;
-	st_ProtocolHdr.wCrypto = 0;
-	st_ProtocolHdr.wTail = XENGIEN_COMMUNICATION_PACKET_PROTOCOL_TAIL;
-	fseek(pSt_WFile, nNow, SEEK_SET);
-	fwrite(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_WFile);
 
-    fclose(pSt_RFile);
-    fclose(pSt_WFile);
-    return 0;
+XENGINE_APPPHONE_EXIT:
+	//销毁日志资源
+	HelpComponents_XLog_Destroy(xhLog);
+
+	fclose(pSt_ISPFile);
+	fclose(pSt_DBDestFile);
+    fclose(pSt_PhoneFile);
+    fclose(pSt_DBDestFile);
+	return 0;
 }

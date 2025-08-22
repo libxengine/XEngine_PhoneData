@@ -12,12 +12,16 @@
 *********************************************************************/
 typedef struct
 {
-	int nPos;
+	XCHAR tszISPName[XPATH_MIN];
+	int nIndex;
+}PHONENUMBER_ISPINFO;
+typedef struct
+{
+	int nArea;
 	XCHAR tszProvinceStr[64];
 	XCHAR tszCityStr[64];
-	XCHAR tszCodeStr[64];
-	XCHAR tszAreaStr[64];
 }XENGINE_LOCATION;
+
 typedef struct
 {
 	XCHAR tszSerialStr[64];
@@ -35,8 +39,14 @@ public:
     CXEngine_PhonePacket();
     ~CXEngine_PhonePacket();
 public:
-    bool XEngine_PhonePacket_Location(XCHAR* ptszMSGBuffer, std::list<XENGINE_LOCATION>* pStl_ListLocation);
-    bool XEngine_PhonePacket_Phone(LPCXSTR lpszMSGBuffer, std::list<XENGINE_LOCATION>* pStl_ListLocation);
+	bool XEngine_PhonePacket_Header(XCHAR* ptszMSGBuffer, int* pInt_MSGLen);
+	bool XEngine_PhonePacket_ISPInfo(XCHAR* ptszMSGBuffer, int* pInt_MSGLen, LPCXSTR lpszISPBuffer);
+	bool XEngine_PhonePacket_LocationInfo(XCHAR* ptszMSGBuffer, int* pInt_MSGLen, LPCXSTR lpszLocationBuffer);
+	bool XEngine_PhonePacket_PHoneInfo(XCHAR* ptszMSGBuffer, int* pInt_MSGLen, int nCount);
 protected:
+	bool XEngine_PhonePacket_ISPList(LPCXSTR lpszISPBuffer);
+	bool XEngine_PhonePacket_LocationList(LPCXSTR lpszLocationBuffer);
 private:
+	std::unordered_map<int, PHONENUMBER_ISPINFO> stl_MapISPInfo; // 运营商信息
+	std::unordered_map<int, XENGINE_LOCATION> stl_MapLocationInfo;
 };

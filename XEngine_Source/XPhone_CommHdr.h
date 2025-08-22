@@ -38,7 +38,7 @@ typedef enum
 //后台服务协议
 #define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_HDR 0x0001              //数据头
 #define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_ISP 0x0002              //运营商
-#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_RECORD 0x0003           //数据记录集
+#define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_LOCATION 0x0003         //位置信息
 #define XENGINE_COMMUNICATION_PROTOCOL_CODE_PHONE_INDEX 0x0004            //索引
 //////////////////////////////////////////////////////////////////////////
 //                          数据结构定义

@@ -210,10 +210,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="XEngine_APPPhone.cpp" />
+    <ClCompile Include="XEngine_Configure.cpp" />
     <ClCompile Include="XEngine_PhonePacket.cpp" />
     <ClCompile Include="XEngine_PhoneUNPack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="XEngine_Configure.h" />
     <ClInclude Include="XEngine_PhoneHdr.h" />
     <ClInclude Include="XEngine_PhonePacket.h" />
     <ClInclude Include="XEngine_PhoneUNPack.h" />
