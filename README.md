@@ -91,18 +91,18 @@ Fork 本仓库
 
 | 当前状态  | 编程语言 | 描述                  | 贡献者               |
 |:-----    | :----    |:---------------------|:--------------------|
-| 待开始    | [golang](Source/golang)         | golang 查询客户端实现        | 待确定 |
-| 待开始    | [php](Source/php)               | php 查询客户端实现           | 待确定 |
-| 待开始    | [java](Source/java)             | java 查询客户端实现          | 待确定 |
-| 待开始    | [lua](Source/lua)               | 纯 lua 查询客户端实现        | 待确定 |
-| 已完成    | [c/c++](Source/C/)               |  c/c++ 查询客户端实现        | [xengine](https://github.com/libxengine) |
-| 待开始    | [rust](Source/rust)             | rust 查询客户端实现          | 待确定 |
-| 待开始    | [python](Source/python)         | python 查询客户端实现        | 待确定 |
-| 待开始    | [nodejs](Source/nodejs)         | nodejs 查询客户端实现        | 待确定 |
-| 待开始    | [csharp](Source/csharp)         | csharp 查询客户端实现        | 待确定 |
-| 待开始    | [erlang](Source/erlang)         | erlang 查询客户端实现        | 待确定 |
-| 待开始    | [php_ext](Source/php7_ext)      | php c 扩展 xdb 查询客户端实现 | 待确定 |
-| 待开始    | [nginx](Source/nginx)           | nginx 扩展 xdb 查询客户端实现 | 待确定 |
+| 待开始    | [golang](XEngine_APPExample/golang)         | golang 查询客户端实现        | 待确定 |
+| 待开始    | [php](XEngine_APPExample/php)               | php 查询客户端实现           | 待确定 |
+| 待开始    | [java](XEngine_APPExample/java)             | java 查询客户端实现          | 待确定 |
+| 待开始    | [lua](XEngine_APPExample/lua)               | 纯 lua 查询客户端实现        | 待确定 |
+| 已完成    | [c/c++](XEngine_APPExample/C/)               |  c/c++ 查询客户端实现        | [xengine](https://github.com/libxengine) |
+| 待开始    | [rust](XEngine_APPExample/rust)             | rust 查询客户端实现          | 待确定 |
+| 待开始    | [python](XEngine_APPExample/python)         | python 查询客户端实现        | 待确定 |
+| 待开始    | [nodejs](XEngine_APPExample/nodejs)         | nodejs 查询客户端实现        | 待确定 |
+| 待开始    | [csharp](XEngine_APPExample/csharp)         | csharp 查询客户端实现        | 待确定 |
+| 待开始    | [erlang](XEngine_APPExample/erlang)         | erlang 查询客户端实现        | 待确定 |
+| 待开始    | [php_ext](XEngine_APPExample/php7_ext)      | php c 扩展 xdb 查询客户端实现 | 待确定 |
+| 待开始    | [nginx](XEngine_APPExample/nginx)           | nginx 扩展 xdb 查询客户端实现 | 待确定 |
 
 ## 免责声明
 本数据库仅用于学习研究,不得用于任何商业或非法用途,否则,一切后果请用户自负  
