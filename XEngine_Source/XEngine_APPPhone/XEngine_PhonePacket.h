@@ -22,17 +22,6 @@ typedef struct
 	XCHAR tszCityStr[64];
 }XENGINE_LOCATION;
 
-typedef struct
-{
-	XCHAR tszSerialStr[64];
-	XCHAR tszPhoneStr[64];
-	XCHAR tszPhoneType[64];
-	XCHAR tszProvinceStr[64];
-	XCHAR tszCityStr[64];
-	XCHAR tszAreaStr[64];
-	XCHAR tszTransferStr[64];
-}XENGINE_PHONEINTERNAL;
-
 class CXEngine_PhonePacket
 {
 public:
@@ -42,7 +31,7 @@ public:
 	bool XEngine_PhonePacket_Header(XCHAR* ptszMSGBuffer, int* pInt_MSGLen);
 	bool XEngine_PhonePacket_ISPInfo(XCHAR* ptszMSGBuffer, int* pInt_MSGLen, LPCXSTR lpszISPBuffer);
 	bool XEngine_PhonePacket_LocationInfo(XCHAR* ptszMSGBuffer, int* pInt_MSGLen, LPCXSTR lpszLocationBuffer);
-	bool XEngine_PhonePacket_PHoneInfo(XCHAR* ptszMSGBuffer, int* pInt_MSGLen, int nCount);
+	bool XEngine_PhonePacket_PhoneInfo(XCHAR* ptszMSGBuffer, int* pInt_MSGLen, int nCount);
 protected:
 	bool XEngine_PhonePacket_ISPList(LPCXSTR lpszISPBuffer);
 	bool XEngine_PhonePacket_LocationList(LPCXSTR lpszLocationBuffer);
