@@ -6,3 +6,4 @@ EXPORTS
 	APIModule_PhoneNumber_Init
 	APIModule_PhoneNumber_UnInit
 	APIModule_PhoneNumber_Query
+	APIModule_PhoneNumber_Version

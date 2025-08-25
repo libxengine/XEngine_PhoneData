@@ -21,11 +21,7 @@ bool XEngine_Configure_Parament(int argc, char** argv)
 		}
 		else if (0 == _tcsxicmp("-p", argv[i]))
 		{
-			st_APPParameter.bPacket = true;
-		}
-		else if (0 == _tcsxicmp("u", argv[i]))
-		{
-			st_APPParameter.bPacket = false;
+			st_APPParameter.nPType = _ttxoi(argv[i++]);
 		}
 	}
 

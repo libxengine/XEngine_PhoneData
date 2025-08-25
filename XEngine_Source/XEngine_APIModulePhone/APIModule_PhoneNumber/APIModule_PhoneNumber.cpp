@@ -178,6 +178,32 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Query(XENGINE_PHONEINFO *pSt_
 	}
 	return true;
 }
+/********************************************************************
+函数名称：APIModule_PhoneNumber_Version
+函数功能：获取系统版本号
+ 参数.一：ptszVersion
+  In/Out：Out
+  类型：字符指针
+  可空：N
+  意思：输出获取到的版本号
+返回值
+  类型：逻辑型
+  意思：是否成功
+备注：
+*********************************************************************/
+bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Version(XCHAR* ptszVersion)
+{
+	APIPhone_IsErrorOccur = false;
+
+	if (NULL == ptszVersion)
+	{
+		APIPhone_IsErrorOccur = true;
+		APIPhone_dwErrorCode = ERROR_XENGINE_PHONENUMBER_APIMODULE_PARAMENT;
+		return false;
+	}
+	_tcsxcpy(ptszVersion, tszVersionStr);
+	return true;
+}
 //////////////////////////////////////////////////////////////////////////
 //                       保护函数
 //////////////////////////////////////////////////////////////////////////
@@ -197,7 +223,7 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer)
 		APIPhone_dwErrorCode = ERROR_XENGINE_PHONENUMBER_APIMODULE_VER;
 		return false;
 	}
-	//memcpy(tszVersionStr, lpszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
+	memcpy(tszVersionStr, lpszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
 	nPos += st_ProtocolHdr.unPacketSize;
 	//得到运营商信息
 	memcpy(&st_ProtocolHdr, lpszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));

@@ -10,15 +10,6 @@
 //    Purpose:     数据解封装还原
 //    History:
 *********************************************************************/
-typedef struct
-{
-	XCHAR tszPhoneStr[64];
-	XCHAR tszPhoneType[64];
-	XCHAR tszProvinceStr[64];
-	XCHAR tszCityStr[64];
-	XCHAR tszAreaStr[64];
-	XCHAR tszTransferStr[64];
-}XENGINE_PHONEINTERNAL;
 
 class CXEngine_PhoneUNPack
 {
@@ -26,6 +17,7 @@ public:
 	CXEngine_PhoneUNPack();
 	~CXEngine_PhoneUNPack();
 public:
+	bool XEngine_PhoneUNPack_Header(LPCXSTR lpszMSGBuffer, int nMSGLen, XCHAR* ptszYMDTime, int* pInt_YMDLen);
 protected:
 private:
 };

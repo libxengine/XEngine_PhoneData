@@ -32,7 +32,7 @@
 *********************************************************************/
 typedef struct  
 {
-	bool bPacket;
+	int nPType;
 }PHONEMODULE_APPPARAMETER;
 
 extern XHANDLE xhLog;

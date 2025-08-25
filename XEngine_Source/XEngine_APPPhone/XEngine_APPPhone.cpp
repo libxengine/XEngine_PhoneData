@@ -14,7 +14,7 @@ XHANDLE xhLog = NULL;
 HELPCOMPONENTS_XLOG_CONFIGURE st_XLogConfigure = {};
 PHONEMODULE_APPPARAMETER st_APPParameter = {};
 
-#define _XENGINE_APPPHONE_CHARSET_UTF 1
+#define _XENGINE_APPPHONE_CHARSET_UTF 0
 
 void XEngine_APPPhone_Stop(int signo)
 {
@@ -43,9 +43,9 @@ int main()
 	LPCXSTR lpszPhoneFile = _X("D:\\XEngine_PhoneData\\XEngine_DBSource\\Phone.txt");
 
 #if 1 == _XENGINE_APPPHONE_CHARSET_UTF
-	LPCXSTR lpszDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_utf1.dat");
+	LPCXSTR lpszDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_utf.dat");
 #else
-	LPCXSTR lpszDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_gbk1.dat");
+	LPCXSTR lpszDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_gbk.dat");
 #endif
 
 	xhLog = HelpComponents_XLog_Init(HELPCOMPONENTS_XLOG_OUTTYPE_STD, &st_XLogConfigure);
@@ -56,15 +56,15 @@ int main()
 	}
 	//设置日志打印级别
 	HelpComponents_XLog_SetLogPriority(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO);
-	XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,初始化日志系统成功"));
+	XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话封包中,初始化日志系统成功"));
 
 	signal(SIGINT, XEngine_APPPhone_Stop);
 	signal(SIGTERM, XEngine_APPPhone_Stop);
 	signal(SIGABRT, XEngine_APPPhone_Stop);
-	XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,初始化信号量处理程序成功"));
+	XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话封包中,初始化信号量处理程序成功"));
 	//打包
-	st_APPParameter.bPacket = true;
-    if (st_APPParameter.bPacket)
+	st_APPParameter.nPType = 1;
+    if (0 == st_APPParameter.nPType)
     {
 		CXEngine_PhonePacket m_PhonePacket;
 
@@ -74,56 +74,57 @@ int main()
 		pSt_ISPFile = _xtfopen(lpszISPFile, _X("rb"));
 		if (NULL == pSt_ISPFile)
 		{
-			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,打开ISP源失败"));
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话封包中,打开ISP源失败"));
 			goto XENGINE_APPPHONE_EXIT;
 		}
 		int nRet = fread(tszISPBuffer, 1, XPATH_MAX, pSt_ISPFile);
-		fclose(pSt_ISPFile);
-		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,读取ISP源成功,数据大小:%d"), nRet);
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话封包中,读取ISP源成功,数据大小:%d"), nRet);
 
 		pSt_LocationFile = _xtfopen(lpszLocationFile, _X("rb"));
 		if (NULL == pSt_ISPFile)
 		{
-			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,打开位置源失败"));
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话封包中,打开位置源失败"));
 			return -1;
 		}
 		nRet = fread(tszLocationBuffer, 1, sizeof(tszLocationBuffer), pSt_ISPFile);
-		fclose(pSt_LocationFile);
-		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,读取Location源成功,数据大小:%d"), nRet);
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话封包中,读取Location源成功,数据大小:%d"), nRet);
 
 		pSt_PhoneFile = _xtfopen(lpszPhoneFile, _X("rb"));
 		if (NULL == pSt_ISPFile)
 		{
-			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,打开电话源失败"));
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话封包中,打开电话源失败"));
 			return -1;
 		}
-		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,读取Phone源成功"));
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话封包中,读取Phone源成功"));
 
 		pSt_DBDestFile = _xtfopen(lpszDestFile, _X("wb"));
 		if (NULL == pSt_DBDestFile)
 		{
-			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,创建目标失败"));
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话封包中,创建目标失败"));
 			return -1;
 		}
-		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,创建目标成功"));
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话封包中,创建目标成功"));
 		//////////////////////////////////////////////////////////////////////////HDR
 		int nMSGLen = 0;
 		XCHAR tszMSGBuffer[8192] = {};
 
 		m_PhonePacket.XEngine_PhonePacket_Header(tszMSGBuffer, &nMSGLen);
 		fwrite(tszMSGBuffer, 1, nMSGLen, pSt_DBDestFile);
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("打包中,写入数据包头成功"));
 		//////////////////////////////////////////////////////////////////////////ISP
 		nMSGLen = 0;
 		memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
 
 		m_PhonePacket.XEngine_PhonePacket_ISPInfo(tszMSGBuffer, &nMSGLen, tszISPBuffer);
 		fwrite(tszMSGBuffer, 1, nMSGLen, pSt_DBDestFile);
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("打包中,写入运营商数据成功"));
 		//////////////////////////////////////////////////////////////////////////Location
 		nMSGLen = 0;
 		memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
 
 		m_PhonePacket.XEngine_PhonePacket_LocationInfo(tszMSGBuffer, &nMSGLen, tszLocationBuffer);
 		fwrite(tszMSGBuffer, 1, nMSGLen, pSt_DBDestFile);
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("打包中,写入位置数据成功"));
 		//////////////////////////////////////////////////////////////////////////Phone
 		int nPos = ftell(pSt_DBDestFile);
 		XENGINE_PROTOCOLHDR st_ProtocolHdr = {};
@@ -167,14 +168,87 @@ int main()
 		//回写
 		fseek(pSt_DBDestFile, nPos, SEEK_SET);
 		fwrite(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_DBDestFile);
-		fclose(pSt_DBDestFile);
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("打包完成,写入电话数据成功,个数:%d"), st_ProtocolHdr.unPacketSize);
     }
-    else
+	else if (1 == st_APPParameter.nPType)
     {
 		CXEngine_PhoneUNPack m_PhoneUNPack;
+
+		pSt_DBDestFile = _xtfopen(lpszDestFile, _X("rb"));
+		if (NULL == pSt_DBDestFile)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,读取数据失败"));
+			return -1;
+		}
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,读取数据成功"));
+
+		pSt_ISPFile = _xtfopen(lpszISPFile, _X("wb"));
+		if (NULL == pSt_ISPFile)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,创建原始运营商文件数据失败"));
+			goto XENGINE_APPPHONE_EXIT;
+		}
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,创建原始运营商文件数据成功"));
+
+		pSt_LocationFile = _xtfopen(lpszLocationFile, _X("wb"));
+		if (NULL == pSt_ISPFile)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,创建原始位置文件数据失败"));
+			return -1;
+		}
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,创建原始位置文件数据成功"));
+
+		pSt_PhoneFile = _xtfopen(lpszPhoneFile, _X("wb"));
+		if (NULL == pSt_ISPFile)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,创建原始电话文件数据失败"));
+			return -1;
+		}
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,创建原始电话文件数据成功"));
+		//////////////////////////////////////////////////////////////////////////HDR
+		int nPos = 0;
+		XCHAR tszMSGBuffer[8192] = {};
+		XENGINE_PROTOCOLHDR st_ProtocolHdr = {};
+		//得到头分区数据
+		fread(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_DBDestFile);
+		nPos += sizeof(XENGINE_PROTOCOLHDR);
+		if (XENGIEN_COMMUNICATION_PACKET_PROTOCOL_HEADER != st_ProtocolHdr.wHeader || XENGIEN_COMMUNICATION_PACKET_PROTOCOL_TAIL != st_ProtocolHdr.wTail || XENGINE_COMMUNICATION_PROTOCOL_TYPE_PHONE != st_ProtocolHdr.unOperatorType)
+		{
+			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,数据头验证失败"));
+			goto XENGINE_APPPHONE_EXIT;
+		}
+		XCHAR tszVersionStr[32] = {};
+		fread(tszVersionStr, 1, st_ProtocolHdr.unPacketSize, pSt_DBDestFile);
+		nPos += st_ProtocolHdr.unPacketSize;
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,获取版本号:%s 成功"), tszVersionStr);
+		//得到运营商信息
+		fread(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_DBDestFile);
+		nPos += sizeof(XENGINE_PROTOCOLHDR);
+		fread(tszMSGBuffer, 1, st_ProtocolHdr.unPacketSize, pSt_DBDestFile);
+		nPos += st_ProtocolHdr.unPacketSize;
+		fwrite(tszMSGBuffer, 1, st_ProtocolHdr.unPacketSize, pSt_ISPFile);
+		//得到位置分区
+		memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
+		fread(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_DBDestFile);
+		nPos += sizeof(XENGINE_PROTOCOLHDR);
+		fread(tszMSGBuffer, 1, st_ProtocolHdr.unPacketSize, pSt_DBDestFile);
+		nPos += st_ProtocolHdr.unPacketSize;
+		fwrite(tszMSGBuffer, 1, st_ProtocolHdr.unPacketSize, pSt_LocationFile);
+		//得到索引分区
+		fread(&st_ProtocolHdr, 1, sizeof(XENGINE_PROTOCOLHDR), pSt_DBDestFile);
+		nPos += sizeof(XENGINE_PROTOCOLHDR);
+		while (true)
+		{
+			memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
+			if (NULL == fgets(tszMSGBuffer, XPATH_MAX, pSt_DBDestFile))
+			{
+				break;
+			}
+			fwrite(tszMSGBuffer, 1, _tcsxlen(tszMSGBuffer), pSt_PhoneFile);
+		}
+		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("解封装完成,读取到的电话信息个数:%d"), st_ProtocolHdr.unPacketSize);
     }
     
-
 XENGINE_APPPHONE_EXIT:
 	//销毁日志资源
 	HelpComponents_XLog_Destroy(xhLog);

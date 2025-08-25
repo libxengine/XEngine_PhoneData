@@ -41,3 +41,7 @@ extern "C" bool APIModule_PhoneNumber_Query(XENGINE_PHONEINFO* pSt_PhoneInfo)
 {
 	return m_APIPhone.APIModule_PhoneNumber_Query(pSt_PhoneInfo);
 }
+extern "C" bool APIModule_PhoneNumber_Version(XCHAR* ptszVersion)
+{
+	return m_APIPhone.APIModule_PhoneNumber_Version(ptszVersion);
+}

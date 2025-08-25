@@ -20,6 +20,7 @@ public:
 	bool APIModule_PhoneNumber_Init(LPCXSTR lpszDBFile);
 	void APIModule_PhoneNumber_UnInit();
 	bool APIModule_PhoneNumber_Query(XENGINE_PHONEINFO* pSt_PhoneInfo);
+	bool APIModule_PhoneNumber_Version(XCHAR* ptszVersion);
 protected:
 	bool APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer);
 	std::string APIModule_PhoneNumber_7Digits(LPCXSTR lpszMSGBuffer);

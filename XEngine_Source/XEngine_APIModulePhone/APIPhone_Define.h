@@ -54,3 +54,17 @@ extern "C" void APIModule_PhoneNumber_UnInit();
 备注：
 *********************************************************************/
 extern "C" bool APIModule_PhoneNumber_Query(XENGINE_PHONEINFO* pSt_PhoneInfo);
+/********************************************************************
+函数名称：APIModule_PhoneNumber_Version
+函数功能：获取系统版本号
+ 参数.一：ptszVersion
+  In/Out：Out
+  类型：字符指针
+  可空：N
+  意思：输出获取到的版本号
+返回值
+  类型：逻辑型
+  意思：是否成功
+备注：
+*********************************************************************/
+extern "C" bool APIModule_PhoneNumber_Version(XCHAR* ptszVersion);
