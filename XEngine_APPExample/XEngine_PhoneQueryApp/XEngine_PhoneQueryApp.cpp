@@ -7,26 +7,26 @@
 #include <XEngine_Include/XEngine_CommHdr.h>
 #include <XEngine_Include/XEngine_Types.h>
 #include <XEngine_Include/XEngine_ProtocolHdr.h>
-#include "../../XPhone_CommHdr.h"
-#include "../XEngine_APIModulePhone/APIPhone_Define.h"
-#include "../XEngine_APIModulePhone/APIPhone_Error.h"
+#include "../../XEngine_Source/XPhone_CommHdr.h"
+#include "../../XEngine_Source/XEngine_APIModulePhone/APIPhone_Define.h"
+#include "../../XEngine_Source/XEngine_APIModulePhone/APIPhone_Error.h"
 
 #ifdef _MSC_BUILD
 #ifdef _DEBUG
 #ifdef _M_X64
-#pragma comment(lib,"../x64/Debug/XEngine_APIModulePhone")
+#pragma comment(lib,"../../XEngine_Source/x64/Debug/XEngine_APIModulePhone")
 #elif _M_ARM64
-#pragma comment(lib,"../ARM64/Debug/XEngine_APIModulePhone")
+#pragma comment(lib,"../../XEngine_Source/ARM64/Debug/XEngine_APIModulePhone")
 #elif _M_IX86
-#pragma comment(lib,"../Debug/XEngine_APIModulePhone")
+#pragma comment(lib,"../../XEngine_Source/Debug/XEngine_APIModulePhone")
 #endif
 #else
 #ifdef _M_X64
-#pragma comment(lib,"../x64/Release/XEngine_APIModulePhone")
+#pragma comment(lib,"../../XEngine_Source/x64/Release/XEngine_APIModulePhone")
 #elif _M_ARM64
-#pragma comment(lib,"../ARM64/Release/XEngine_APIModulePhone")
+#pragma comment(lib,"../../XEngine_Source/ARM64/Release/XEngine_APIModulePhone")
 #elif _M_IX86
-#pragma comment(lib,"../Release/XEngine_APIModulePhone")
+#pragma comment(lib,"../../XEngine_Source/Release/XEngine_APIModulePhone")
 #endif
 #endif
 #endif
@@ -41,7 +41,7 @@ int main()
 		return false;
 	}
 #endif
-	LPCXSTR lpszFile = _X("D:\\phonedata\\Data\\phone_gbk.dat");
+	LPCXSTR lpszFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_gbk.dat");
 	if (!APIModule_PhoneNumber_Init(lpszFile))
 	{
 		printf("APIModule_PhoneNumber_Init:%lX\n", APIPhone_GetLastError());

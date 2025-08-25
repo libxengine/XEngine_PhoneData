@@ -22,27 +22,26 @@
 
 ## 数据格式
 协议头可以在https://github.com/libxengine/libxengine/blob/master/XEngine_Include/XEngine_ProtocolHdr.h 找到.所属项目是https://github.com/libxengine/libxengine  
-电话号码数据格式有四个分区,他们分别是头分区.类型分区,记录分区,索引分区.每个分区前面有一个XENGINE_PROTOCOLHDR的协议头  
+电话号码数据格式有四个分区,他们分别是头分区.运营商分区,位置分区,号码分区.每个分区前面有一个XENGINE_PROTOCOLHDR的协议头  
 可以通过协议头来验证数据格式是否正确,协议头wHeader和wTail可以验证是否是标准协议  
 unOperatorType和unOperatorCode 可以验证协议类型,wCrypto可以验证后续内容是否加密,unPacketSize可以得到数据大小
 
 #### 头分区
-XENGIEN_PROTOCOLHDR+4个字节标识符+版本号.30个字节头+4个字节表示+8个字节版本,一共42个字节分区头.具体格式如下  
-XENGINE_PROTOCOLHDR+XYRY-20240622
+XENGIEN_PROTOCOLHDR+版本号.30个字节头+8个字节版本,一共38个字节分区头.具体格式如下  
+XENGINE_PROTOCOLHDR+20240622
 
-#### 类型分区
-XENGIEN_PROTOCOLHDR+类型-运营商名称,....,通过逗号分割,通过-符号映射,协议头的wPacketSerial被设置为映射列表个数  
-XENGINE_PROTOCOLHDR+0-UNKNOW,1-CMCC,2-CUCC....等等比如0表示未知,1表示CMCC中国移动
+#### 运营商分区
+XENGIEN_PROTOCOLHDR+类型-运营商名称,....,通过空格分割,通过-符号映射,协议头的wPacketSerial被设置为映射列表个数  
+XENGINE_PROTOCOLHDR+0-UNKNOW 1-CMCC 2-CUCC....等等比如0表示未知,1表示CMCC中国移动
 
-#### 记录分区
-XENGIEN_PROTOCOLHDR+省份|城市|区号,30个字节头.后续大小不固定,通过头中的负载大小来确定后续内容大小.具体格式如下  
-XENGINE_PROTOCOLHDR+四川|成都|028
+#### 位置分区
+XENGIEN_PROTOCOLHDR+省份-城市-区号,30个字节头.后续大小不固定,通过头中的负载大小来确定后续内容大小.具体格式如下  
+XENGINE_PROTOCOLHDR+028-四川-成都
 
-#### 索引分区
-XENGINE_PROTOCOLHDR的负载大小为索引区个数大小,不是负载后续大小,由于是文件格式,你可以通过文件大小-当前偏移得到.  
-XENGINE_PROTOCOLHDR的索引区数据格式大小不固定,通过\n来分割每个索引.  
-XENGIEN_PROTOCOLHDR+号码,区号,号码类型,记录区偏移.具体格式如下  
-XENGINE_PROTOCOLHDR+199408840,028,1333
+#### 号码分区
+XENGINE_PROTOCOLHDR的负载大小为索引区个数大小,不是负载后续大小,索引区数据格式大小不固定,通过\n来分割每个索引.  
+具体格式是:号码,区号,号码类型,是否转网(转网后面需要跟上-原始网络类型),如下:  
+XENGINE_PROTOCOLHDR+1994088-028-2-0,比如 如果是联通转短信1994088-028-2-0-1
 
 ## 如何贡献数据库
 有两种方法可以提交合并新的电话号码.但是他们的格式你都需要按照下面的格式填写  
@@ -108,6 +107,3 @@ Fork 本仓库
 ## 免责声明
 本数据库仅用于学习研究,不得用于任何商业或非法用途,否则,一切后果请用户自负  
 本数据库来源互联网,版权归原作者所有,本人只是整理,如有侵权,请告知删除
-
-#### 数据来源
-https://github.com/pangongzi/phone.git
