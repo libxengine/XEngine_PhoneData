@@ -43,9 +43,9 @@ int main()
 	LPCXSTR lpszPhoneFile = _X("D:\\XEngine_PhoneData\\XEngine_DBSource\\Phone.txt");
 
 #if 1 == _XENGINE_APPPHONE_CHARSET_UTF
-	LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_utf1.dat");
+	LPCXSTR lpszDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_utf1.dat");
 #else
-	LPCXSTR lspzDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_gbk1.dat");
+	LPCXSTR lpszDestFile = _X("D:\\XEngine_PhoneData\\XEngine_Release\\phone_gbk1.dat");
 #endif
 
 	xhLog = HelpComponents_XLog_Init(HELPCOMPONENTS_XLOG_OUTTYPE_STD, &st_XLogConfigure);
@@ -99,7 +99,7 @@ int main()
 		}
 		XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_INFO, _X("执行电话解封包中,读取Phone源成功"));
 
-		pSt_DBDestFile = _xtfopen(lspzDestFile, _X("wb"));
+		pSt_DBDestFile = _xtfopen(lpszDestFile, _X("wb"));
 		if (NULL == pSt_DBDestFile)
 		{
 			XLOG_PRINT(xhLog, XENGINE_HELPCOMPONENTS_XLOG_IN_LOGLEVEL_ERROR, _X("执行电话解封包中,创建目标失败"));
@@ -145,6 +145,22 @@ int main()
 			{
 				break;
 			}
+			typedef struct
+			{
+				XCHAR tszPhoneStr[64];
+				XCHAR tszAreaStr[64];
+				XCHAR tszPhoneType[64];
+				XCHAR tszIndexStr[64];
+				XCHAR tszTransferStr[64];
+			}XENGINE_PHONEINDEX;
+
+			XENGINE_PHONEINDEX st_PhoneIndex = {};
+			int nRet = _stxscanf(tszMSGBuffer, _X("%[^-]-%[^-]-%[^-]-%[^-]-%s"), st_PhoneIndex.tszPhoneStr, st_PhoneIndex.tszAreaStr, st_PhoneIndex.tszPhoneType, st_PhoneIndex.tszIndexStr, st_PhoneIndex.tszTransferStr);
+			if (nRet != 5)
+			{
+				break;
+			}
+			_xstprintf(tszMSGBuffer, _X("%s-%s-%s-%s\n"),st_PhoneIndex.tszPhoneStr, st_PhoneIndex.tszAreaStr, st_PhoneIndex.tszPhoneType, st_PhoneIndex.tszTransferStr);
 			st_ProtocolHdr.unPacketSize++;
 			fwrite(tszMSGBuffer, 1, _tcsxlen(tszMSGBuffer), pSt_DBDestFile);
 		}

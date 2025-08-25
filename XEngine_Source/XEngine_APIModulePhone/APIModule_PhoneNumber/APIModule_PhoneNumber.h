@@ -24,14 +24,12 @@ protected:
 	bool APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer);
 	std::string APIModule_PhoneNumber_7Digits(LPCXSTR lpszMSGBuffer);
 private:
+	XCHAR tszVersionStr[32] = {};
+private:
 	size_t nPos = 0;
 	size_t nFSize = 0;
 	XCHAR* ptszMSGBuffer = NULL;
-
-	XENGINE_PROTOCOLHDR st_ProtocolHdr = {};
-	XENGINE_PROTOCOLHDR st_ProtocolMap = {};
-	XENGINE_PROTOCOLHDR st_ProtocolRecord = {};
-	XENGINE_PROTOCOLHDR st_ProtocolIndex = {};
 private:
-	std::unordered_map<int, std::string> stl_MapISPName;
+	std::unordered_map<xstring, xstring> stl_MapISPName;
+	std::unordered_map<xstring, XENGINE_PHONELOCATION> stl_MapLocation;
 };

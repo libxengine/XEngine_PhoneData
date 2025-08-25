@@ -126,6 +126,8 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Query(XENGINE_PHONEINFO *pSt_
 	memset(ptszPhoneIndex, '\0', XENGINE_MEMORY_SIZE_LARGE);
 	memcpy(ptszPhoneIndex, ptszMSGBuffer + nPos, nFSize - nPos);
 
+	std::string m_StrPhone = APIModule_PhoneNumber_7Digits(pSt_PhoneInfo->tszPhoneNumber);
+
 	bool bFound = false;
 	XCHAR* ptszTokTmp = NULL;
 	XCHAR* ptszTokStr = _tcsxtok_s(ptszPhoneIndex, _X("\n"), &ptszTokTmp);
@@ -136,35 +138,28 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Query(XENGINE_PHONEINFO *pSt_
 			XCHAR tszPhoneStr[64];
 			XCHAR tszAreaStr[64];
 			XCHAR tszPhoneType[64];
-			XCHAR tszIndexStr[64];
 			XCHAR tszTransferStr[64];
 		}XENGINE_PHONEINDEX;
-
 		XENGINE_PHONEINDEX st_PhoneIndex = {};
-		int nRet = _stxscanf(ptszTokStr, _X("%[^-]-%[^-]-%[^-]-%[^-]-%s"), st_PhoneIndex.tszPhoneStr, st_PhoneIndex.tszAreaStr, st_PhoneIndex.tszPhoneType, st_PhoneIndex.tszIndexStr, st_PhoneIndex.tszTransferStr);
-		if (nRet != 5)
+		int nRet = _stxscanf(ptszTokStr, _X("%[^-]-%[^-]-%[^-]-%s"), st_PhoneIndex.tszPhoneStr, st_PhoneIndex.tszAreaStr, st_PhoneIndex.tszPhoneType, st_PhoneIndex.tszTransferStr);
+		if (nRet != 4)
 		{
 			break;
 		}
-
-		std::string m_StrPhone = APIModule_PhoneNumber_7Digits(pSt_PhoneInfo->tszPhoneNumber);
+		//是否找到
 		if (0 == _tcsxnicmp(m_StrPhone.c_str(), st_PhoneIndex.tszPhoneStr, m_StrPhone.length()))
 		{
-			XCHAR tszLocationStr[XPATH_MAX] = {};
-			memcpy(tszLocationStr, ptszMSGBuffer + _ttxoi(st_PhoneIndex.tszIndexStr), 64);
-
-			XCHAR* ptszSubTmp = NULL;
-			XCHAR* ptszSubStr = _tcsxtok_s(tszLocationStr, _X("\n"), &ptszSubTmp);
-
-			int nRet = _stxscanf(ptszSubStr, _X("%[^-]-%[^-]-%s"), pSt_PhoneInfo->tszAreaCode, pSt_PhoneInfo->tszProvincer, pSt_PhoneInfo->tszCity);
-			if (3 != nRet)
+			_tcsxcpy(pSt_PhoneInfo->tszAreaCode, st_PhoneIndex.tszAreaStr);
+			auto stl_MapISPIterator = stl_MapISPName.find(st_PhoneIndex.tszPhoneType);
+			if (stl_MapISPIterator != stl_MapISPName.end())
 			{
-				break;
+				_tcsxcpy(pSt_PhoneInfo->tszISPName, stl_MapISPIterator->second.c_str());
 			}
-			auto stl_MapIterator = stl_MapISPName.find(_ttxoi(st_PhoneIndex.tszPhoneType));
-			if (stl_MapIterator != stl_MapISPName.end())
+			auto stl_MapLocalIterator = stl_MapLocation.find(st_PhoneIndex.tszAreaStr);
+			if (stl_MapLocalIterator != stl_MapLocation.end())
 			{
-				_tcsxcpy(pSt_PhoneInfo->tszISPName, stl_MapIterator->second.c_str());
+				_tcsxcpy(pSt_PhoneInfo->tszProvincer, stl_MapLocalIterator->second.tszProvinceStr);
+				_tcsxcpy(pSt_PhoneInfo->tszCity, stl_MapLocalIterator->second.tszCityStr);
 			}
 			bFound = true;
 			break;
@@ -191,7 +186,8 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer)
 	APIPhone_IsErrorOccur = false;
 
 	nPos = 0;
-	XCHAR tszMSGBuffer[XPATH_MAX] = {};
+	XCHAR tszMSGBuffer[8192] = {};
+	XENGINE_PROTOCOLHDR st_ProtocolHdr = {};
 	//得到头分区数据
 	memcpy(&st_ProtocolHdr, lpszMSGBuffer, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
@@ -201,17 +197,15 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer)
 		APIPhone_dwErrorCode = ERROR_XENGINE_PHONENUMBER_APIMODULE_VER;
 		return false;
 	}
+	//memcpy(tszVersionStr, lpszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
+	nPos += st_ProtocolHdr.unPacketSize;
+	//得到运营商信息
+	memcpy(&st_ProtocolHdr, lpszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
+	nPos += sizeof(XENGINE_PROTOCOLHDR);
 	memcpy(tszMSGBuffer, lpszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
 	nPos += st_ProtocolHdr.unPacketSize;
-	//得到类型映射
-	memcpy(&st_ProtocolMap, lpszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
-	nPos += sizeof(XENGINE_PROTOCOLHDR);
 
-	memset(tszMSGBuffer, '\0', sizeof(tszMSGBuffer));
-	memcpy(tszMSGBuffer, lpszMSGBuffer + nPos, st_ProtocolMap.unPacketSize);
-	nPos += st_ProtocolMap.unPacketSize;
-
-	XCHAR* ptszTokStr = _tcsxtok(tszMSGBuffer, _X(","));
+	XCHAR* ptszTokStr = _tcsxtok(tszMSGBuffer, _X(" "));
 	while (NULL != ptszTokStr)
 	{
 		XCHAR tszKEYStr[16] = {};
@@ -221,15 +215,31 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer)
 		{
 			break;
 		}
-		stl_MapISPName.insert(std::make_pair(_ttxoi(tszKEYStr), tszVLUStr));
-		ptszTokStr = _tcsxtok(NULL, _X(","));
+		stl_MapISPName.insert(std::make_pair(tszKEYStr, tszVLUStr));
+		ptszTokStr = _tcsxtok(NULL, _X(" "));
 	}
-	//得到记录分区
-	memcpy(&st_ProtocolRecord, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
+	//得到位置分区
+	memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
+	memcpy(&st_ProtocolHdr, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
-	nPos += st_ProtocolRecord.unPacketSize;
+	memcpy(tszMSGBuffer, lpszMSGBuffer + nPos, st_ProtocolHdr.unPacketSize);
+	nPos += st_ProtocolHdr.unPacketSize;
+
+	ptszTokStr = _tcsxtok(tszMSGBuffer, _X(" "));
+	while (NULL != ptszTokStr)
+	{
+		XENGINE_PHONELOCATION st_PhoneLocation = {};
+		int nRet = _stxscanf(ptszTokStr, _X("%[^-]-%[^-]-%s"), st_PhoneLocation.tszAreaCode, st_PhoneLocation.tszProvinceStr, st_PhoneLocation.tszCityStr);
+		if (nRet != 3)
+		{
+			break;
+		}
+		stl_MapLocation.insert(std::make_pair(st_PhoneLocation.tszAreaCode, st_PhoneLocation));
+		ptszTokStr = _tcsxtok(NULL, _X(" "));
+	}
 	//得到索引分区
-	memcpy(&st_ProtocolIndex, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
+	memset(tszMSGBuffer, 0, sizeof(tszMSGBuffer));
+	memcpy(&st_ProtocolHdr, ptszMSGBuffer + nPos, sizeof(XENGINE_PROTOCOLHDR));
 	nPos += sizeof(XENGINE_PROTOCOLHDR);
 	return true;
 }

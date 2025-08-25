@@ -12,7 +12,6 @@
 *********************************************************************/
 typedef struct
 {
-	XCHAR tszSerialStr[64];
 	XCHAR tszPhoneStr[64];
 	XCHAR tszPhoneType[64];
 	XCHAR tszProvinceStr[64];

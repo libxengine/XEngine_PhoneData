@@ -51,3 +51,9 @@ typedef struct
 	XCHAR tszAreaCode[64];      //区号
 	XCHAR tszISPName[64];       //运营商名称
 }XENGINE_PHONEINFO;
+typedef struct
+{
+	XCHAR tszAreaCode[64];
+	XCHAR tszProvinceStr[64];
+	XCHAR tszCityStr[64];
+}XENGINE_PHONELOCATION;
