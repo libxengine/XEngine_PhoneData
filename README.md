@@ -1,3 +1,4 @@
+[中文](README.md) ||  [English](README.en.md)  
 # phonedata
 电话号码归属数据库,phone number location database
 
@@ -95,7 +96,7 @@ Fork 本仓库
 | 待开始    | [php](XEngine_APPExample/php)               | php 查询客户端实现           | 待确定 |
 | 待开始    | [java](XEngine_APPExample/java)             | java 查询客户端实现          | 待确定 |
 | 待开始    | [lua](XEngine_APPExample/lua)               | 纯 lua 查询客户端实现        | 待确定 |
-| 已完成    | [c/c++](XEngine_APPExample/C/)               |  c/c++ 查询客户端实现        | [xengine](https://github.com/libxengine) |
+| 已完成    | [c/c++](XEngine_APPExample/C/)              |  c/c++ 查询客户端实现        | [xengine](https://github.com/libxengine) |
 | 待开始    | [rust](XEngine_APPExample/rust)             | rust 查询客户端实现          | 待确定 |
 | 待开始    | [python](XEngine_APPExample/python)         | python 查询客户端实现        | 待确定 |
 | 待开始    | [nodejs](XEngine_APPExample/nodejs)         | nodejs 查询客户端实现        | 待确定 |
