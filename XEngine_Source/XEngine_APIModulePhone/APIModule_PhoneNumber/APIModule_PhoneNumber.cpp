@@ -149,17 +149,17 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Query(XENGINE_PHONEINFO *pSt_
 		//是否找到
 		if (0 == _tcsxnicmp(m_StrPhone.c_str(), st_PhoneIndex.tszPhoneStr, m_StrPhone.length()))
 		{
-			_tcsxcpy(pSt_PhoneInfo->tszAreaCode, st_PhoneIndex.tszAreaStr);
+			_xstrcpy(pSt_PhoneInfo->tszAreaCode, st_PhoneIndex.tszAreaStr, sizeof(pSt_PhoneInfo->tszAreaCode));
 			auto stl_MapISPIterator = stl_MapISPName.find(st_PhoneIndex.tszPhoneType);
 			if (stl_MapISPIterator != stl_MapISPName.end())
 			{
-				_tcsxcpy(pSt_PhoneInfo->tszISPName, stl_MapISPIterator->second.c_str());
+				_xstrcpy(pSt_PhoneInfo->tszISPName, stl_MapISPIterator->second.c_str(), sizeof(pSt_PhoneInfo->tszISPName));
 			}
 			auto stl_MapLocalIterator = stl_MapLocation.find(st_PhoneIndex.tszAreaStr);
 			if (stl_MapLocalIterator != stl_MapLocation.end())
 			{
-				_tcsxcpy(pSt_PhoneInfo->tszProvincer, stl_MapLocalIterator->second.tszProvinceStr);
-				_tcsxcpy(pSt_PhoneInfo->tszCity, stl_MapLocalIterator->second.tszCityStr);
+				_xstrcpy(pSt_PhoneInfo->tszProvincer, stl_MapLocalIterator->second.tszProvinceStr, sizeof(pSt_PhoneInfo->tszProvincer));
+				_xstrcpy(pSt_PhoneInfo->tszCity, stl_MapLocalIterator->second.tszCityStr, sizeof(pSt_PhoneInfo->tszCity));
 			}
 			bFound = true;
 			break;
@@ -201,7 +201,7 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Version(XCHAR* ptszVersion)
 		APIPhone_dwErrorCode = ERROR_XENGINE_PHONENUMBER_APIMODULE_PARAMENT;
 		return false;
 	}
-	_tcsxcpy(ptszVersion, tszVersionStr);
+	_xstrcpy(ptszVersion, tszVersionStr, XPATH_MIN);
 	return true;
 }
 //////////////////////////////////////////////////////////////////////////

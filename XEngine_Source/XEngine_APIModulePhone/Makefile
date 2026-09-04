@@ -5,7 +5,7 @@ FILEEXT =
 LIBFLAG = 
 LOADHDR = -I ./
 LOADSO = 
-LIB = 
+LIB = -lXEngine_BaseLib -lXEngine_BaseSafe
 LIBEX = 
 OBJECTS = APIModule_PhoneNumber.o pch.o
 

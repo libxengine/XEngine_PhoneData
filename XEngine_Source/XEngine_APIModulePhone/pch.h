@@ -20,6 +20,8 @@
 #include <XEngine_Include/XEngine_CommHdr.h>
 #include <XEngine_Include/XEngine_Types.h>
 #include <XEngine_Include/XEngine_ProtocolHdr.h>
+#include <XEngine_Include/XEngine_BaseLib/BaseSafe_Define.h>
+#include <XEngine_Include/XEngine_BaseLib/BaseSafe_Error.h>
 #include "../XPhone_CommHdr.h"
 #include "APIPhone_Define.h"
 #include "APIPhone_Error.h"
@@ -37,5 +39,10 @@ using namespace std;
 *********************************************************************/
 extern bool APIPhone_IsErrorOccur;
 extern XLONG APIPhone_dwErrorCode;
+
+
+#ifdef _MSC_BUILD
+#pragma comment(lib,"XEngine_BaseLib/XEngine_BaseSafe")
+#endif
 
 #endif //PCH_H
