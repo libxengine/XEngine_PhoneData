@@ -12,7 +12,6 @@
 #include "framework.h"
 #include <tchar.h>
 #endif
-#endif //PCH_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,3 +37,5 @@ using namespace std;
 *********************************************************************/
 extern bool APIPhone_IsErrorOccur;
 extern XLONG APIPhone_dwErrorCode;
+
+#endif //PCH_H

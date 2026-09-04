@@ -141,7 +141,7 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Query(XENGINE_PHONEINFO *pSt_
 			XCHAR tszTransferStr[64];
 		}XENGINE_PHONEINDEX;
 		XENGINE_PHONEINDEX st_PhoneIndex = {};
-		int nRet = _stxscanf(ptszTokStr, _X("%[^-]-%[^-]-%[^-]-%s"), st_PhoneIndex.tszPhoneStr, st_PhoneIndex.tszAreaStr, st_PhoneIndex.tszPhoneType, st_PhoneIndex.tszTransferStr);
+		int nRet = _stxscanf(ptszTokStr, _X("%63[^-]-%63[^-]-%63[^-]-%63s"), st_PhoneIndex.tszPhoneStr, st_PhoneIndex.tszAreaStr, st_PhoneIndex.tszPhoneType, st_PhoneIndex.tszTransferStr);
 		if (nRet != 4)
 		{
 			break;
@@ -234,9 +234,9 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer)
 	XCHAR* ptszTokStr = _tcsxtok(tszMSGBuffer, _X(" "));
 	while (NULL != ptszTokStr)
 	{
-		XCHAR tszKEYStr[16] = {};
-		XCHAR tszVLUStr[16] = {};
-		int nRet = _stxscanf(ptszTokStr, _X("%[^-]-%s"), tszKEYStr, tszVLUStr);
+		XCHAR tszKEYStr[64] = {};
+		XCHAR tszVLUStr[64] = {};
+		int nRet = _stxscanf(ptszTokStr, _X("%63[^-]-%63s"), tszKEYStr, tszVLUStr);
 		if (nRet != 2)
 		{
 			break;
@@ -255,7 +255,7 @@ bool CAPIModule_PhoneNumber::APIModule_PhoneNumber_Check(LPCXSTR lpszMSGBuffer)
 	while (NULL != ptszTokStr)
 	{
 		XENGINE_PHONELOCATION st_PhoneLocation = {};
-		int nRet = _stxscanf(ptszTokStr, _X("%[^-]-%[^-]-%s"), st_PhoneLocation.tszAreaCode, st_PhoneLocation.tszProvinceStr, st_PhoneLocation.tszCityStr);
+		int nRet = _stxscanf(ptszTokStr, _X("%63[^-]-%63[^-]-%63s"), st_PhoneLocation.tszAreaCode, st_PhoneLocation.tszProvinceStr, st_PhoneLocation.tszCityStr);
 		if (nRet != 3)
 		{
 			break;
